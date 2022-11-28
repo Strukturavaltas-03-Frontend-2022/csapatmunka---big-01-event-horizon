@@ -1,0 +1,27 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers">{{ header }}</th>
+      <th>Actions</th>
+      <th>Progress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of records; let i = index">
+      <td *ngFor="let header of headers">{{ item[header] }}</td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-primary">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button (click)="onDelete(item, i)" class="btn btn-danger">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
+      <td>
+        <app-spinner width="20" *ngIf="showSpinner[i] === true"></app-spinner>
+      </td>
+    </tr>
+  </tbody>
+</table>
