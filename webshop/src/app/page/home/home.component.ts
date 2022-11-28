@@ -7,9 +7,6 @@ import { ProductService } from 'src/app/services/product.service';
 import { inject } from '@angular/core';
 import { RelayDataService } from 'src/app/services/relay-data.service';
 import { Router } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +27,7 @@ export class HomeComponent implements OnInit {
 
   onClickCustomers() {
     this.showSpinner = true;
+    this.dataRelay.setType('customers');
     this.customerService.fetchCustomers().subscribe((customers) => {
       this.setData(customers);
     });
@@ -37,6 +35,7 @@ export class HomeComponent implements OnInit {
 
   onClickProducts() {
     this.showSpinner = true;
+    this.dataRelay.setType('products');
     this.productService.fetchProducts().subscribe((products) => {
       this.setData(products);
     });
@@ -44,6 +43,7 @@ export class HomeComponent implements OnInit {
 
   onClickOrders() {
     this.showSpinner = true;
+    this.dataRelay.setType('orders');
     this.orderService.fetchOrders().subscribe((orders) => {
       this.setData(orders);
     });
@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   onClickBills() {
     this.showSpinner = true;
+    this.dataRelay.setType('bills');
     this.billService.fetchBills().subscribe((bills) => {
       this.setData(bills);
     });
