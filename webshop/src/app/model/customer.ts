@@ -10,3 +10,13 @@ export class Customer {
   address: Address = new Address();
   active: boolean = false;
 }
+
+export const customerHeaders = [
+  'uniqueId',
+  'id',
+  'firstName',
+  'lastName',
+  'email',
+  'address',
+  'active',
+];

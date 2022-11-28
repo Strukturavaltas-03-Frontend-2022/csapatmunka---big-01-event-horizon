@@ -8,3 +8,5 @@
 - Added 4 buttons to Home component that navigates to the List component with the selected data
 - Added loading spinner to Home component
 - Updated routes and navigation
+- Refined headers for all data tables
+- Added loading spinners to all delete events

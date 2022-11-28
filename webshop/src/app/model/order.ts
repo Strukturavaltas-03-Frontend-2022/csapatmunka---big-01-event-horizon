@@ -7,3 +7,12 @@ export class Order {
   amount: number = 0;
   status: string[] = [];
 }
+
+export const orderHeaders: string[] = [
+  'uniqueId',
+  'id',
+  'customerId',
+  'productId',
+  'amount',
+  'status',
+];

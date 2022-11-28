@@ -23,19 +23,42 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <li *ngFor="let item of menuItems" class="nav-item">
+      <li class="nav-item">
         <a
           class="nav-link text-white active bg-gradient-primary"
-          [routerLink]="item.link"
+          [routerLink]="['/']"
         >
           <div
             class="text-white text-center me-2 d-flex align-items-center justify-content-center"
           >
             <i class="fa fa-dashboard"></i>
           </div>
-          <span class="nav-link-text ms-1">{{ item.text }}</span>
+          <span class="nav-link-text ms-1">Home</span>
         </a>
       </li>
+      <ul class="dropdown">
+        List
+        <li class="nav-item">
+          <a class="nav-link text-white active bg-gradient-primary">
+            <div
+              class="text-white text-center me-2 d-flex align-items-center justify-content-center"
+            >
+              <i class="fa fa-user"></i>
+            </div>
+            <span class="nav-link-text ms-1">Customers</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white active bg-gradient-primary">
+            <div
+              class="text-white text-center me-2 d-flex align-items-center justify-content-center"
+            >
+              <i class="fa fa-product"></i>
+            </div>
+            <span class="nav-link-text ms-1">Products</span>
+          </a>
+        </li>
+      </ul>
     </ul>
     <div class="ps__rail-x" style="left: 0px; bottom: 0px">
       <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px"></div>

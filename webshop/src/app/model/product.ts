@@ -10,3 +10,15 @@ export class Product {
   featured: boolean = false;
   active: boolean = false;
 }
+
+export const productHeaders: string[] = [
+  'uniqueId',
+  'id',
+  'name',
+  'type',
+  'catId',
+  'description',
+  'price',
+  'featured',
+  'active',
+];
