@@ -1,5 +1,3 @@
-# str3-final-project
-
 |2022.11.28. - ver. 1.00
 
 - Generated all data tables on Mockaroo
