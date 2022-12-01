@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,7 +17,9 @@ import { DataEditorComponent } from './common/data-editor/data-editor.component'
 import { EditorComponent } from './page/editor/editor.component';
 import { DataTableComponent } from './common/data-table/data-table.component';
 import { SpinnerComponent } from './util/spinner/spinner.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { FilterPipe } from './common/data-table/filter.pipe';
+import { SortPipe } from './common/data-table/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     EditorComponent,
     DataTableComponent,
     SpinnerComponent,
+    FilterPipe,
+    SortPipe,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +41,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
+    FormsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
