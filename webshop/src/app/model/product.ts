@@ -1,10 +1,12 @@
+import { Category } from './category';
+
 export class Product {
   [key: string]: any;
   uniqueId: string = '';
   id: number = 0;
   name: string = '';
   type: string = '';
-  catId: number = 0;
+  category: Category = new Category();
   description: string = '';
   price: number = 0;
   featured: boolean = false;
@@ -12,11 +14,12 @@ export class Product {
 }
 
 export const productHeaders: string[] = [
-  'uniqueId',
   'id',
   'name',
   'type',
   'catId',
+  'catName',
+  'catDescription',
   'description',
   'price',
   'featured',
