@@ -1,27 +1,25 @@
-# Webshop
+|2022.11.28. - ver. 1.00
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.0.
+- Generated all data tables on Mockaroo
+- Added data tables to Firebase Realtime database
+- Added data models
+- Added services for all entities with full CRUD capabilities
+- Added List component with dynamically filled table
+- Added 4 buttons to Home component that navigates to the List component with the selected data
+- Added loading spinner to Home component
+- Updated routes and navigation
+- Refined headers for all data tables
+- Added loading spinners to all delete events
 
-## Development server
+|2022.12.01. - ver. 1.05
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Data fetching services got merged into one general service
+- Components have access to all data tables at all times through data relay service
+- Sidebar menu links got added and updated and navigate to the listing page displaying the selected data
+- The listing component now features a dynamic paginator (ngx-pagination), sorting by headers, filtering by all header types and a table wide create button at the top to add new items
+- Ng-Toastr got added to the project library
+- Deleting a record displays a toast message in the top right corner and updates the table and database aswell
+- Editing a record navigates to the editor page with the chosen item
+- Refurbished data-table component to make it dumber
+- Top navigation / Breadcrumb updated
+- Minor visual changes to color-scheme

@@ -9,7 +9,6 @@ export class Order {
 }
 
 export const orderHeaders: string[] = [
-  'uniqueId',
   'id',
   'customerId',
   'productId',

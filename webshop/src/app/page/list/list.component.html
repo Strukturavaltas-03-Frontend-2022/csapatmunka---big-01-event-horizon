@@ -1,1 +1,6 @@
-<app-data-table [records]="items" [headers]="headers"></app-data-table>
+<app-data-table
+  (deleteItem)="onDeleteItem($event)"
+  (editItem)="onEditItem($event)"
+  [records]="items"
+  [headers]="headers"
+></app-data-table>
