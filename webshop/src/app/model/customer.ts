@@ -12,7 +12,6 @@ export class Customer {
 }
 
 export const customerHeaders = [
-  'uniqueId',
   'id',
   'firstName',
   'lastName',

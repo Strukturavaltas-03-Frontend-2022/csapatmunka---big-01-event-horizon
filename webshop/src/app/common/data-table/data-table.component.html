@@ -1,27 +1,80 @@
+<button class="btn btn-info w-100">
+  <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th *ngFor="let header of headers">{{ header }}</th>
+      <th
+        *ngFor="let header of headers; let i = index"
+        (click)="onSorting(header, i)"
+      >
+        {{ header }}
+        <i
+          [ngClass]="
+            sortDirections[i] === true ? 'fa-sort-desc' : 'fa-sort-asc'
+          "
+          class="fa"
+          aria-hidden="true"
+        ></i>
+      </th>
       <th>Actions</th>
-      <th>Progress</th>
+      <!-- <th>Progress</th> -->
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of records; let i = index">
-      <td *ngFor="let header of headers">{{ item[header] }}</td>
+    <tr>
+      <td *ngFor="let header of headers; let i = index">
+        <input
+          [(ngModel)]="phrases[i]"
+          (keyup)="onPhraseChange(header, i)"
+          type="text"
+          [placeholder]="header"
+        />
+      </td>
+      <td></td>
+      <!-- <td></td> -->
+    </tr>
+    <tr
+      *ngFor="
+        let item of records
+          | filter: key:phrase
+          | sort: sortDirection:sortHeader
+          | paginate: { itemsPerPage: 9, currentPage: page };
+        let i = index
+      "
+    >
+      <td *ngFor="let header of headers">
+        <div *ngIf="!header.includes('cat')">{{ item[header] }}</div>
+        <div *ngIf="header === 'catId'">
+          {{ item["category"].id }}
+        </div>
+        <div *ngIf="header === 'catName'">{{ item["category"].name }}</div>
+        <div
+          style="word-wrap: break-word; max-width: 150px"
+          *ngIf="header === 'catDescription'"
+        >
+          {{ item["category"].description }}
+        </div>
+      </td>
       <td>
         <div class="btn-group">
-          <button class="btn btn-primary">
+          <button (click)="onEdit(item.uniqueId)" class="btn btn-dark">
             <i class="fa fa-edit"></i>
           </button>
-          <button (click)="onDelete(item, i)" class="btn btn-danger">
+          <button (click)="onDelete(item.uniqueId)" class="btn btn-warning">
             <i class="fa fa-trash"></i>
           </button>
         </div>
       </td>
-      <td>
-        <app-spinner width="20" *ngIf="showSpinner[i] === true"></app-spinner>
-      </td>
+      <!-- <td>
+        <div class="my-auto d-flex justify-content-center align-items-center">
+          <app-spinner width="30"></app-spinner>
+        </div>
+      </td> -->
     </tr>
   </tbody>
 </table>
+
+<div class="pagination d-flex justify-content-center">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

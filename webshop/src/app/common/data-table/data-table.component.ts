@@ -1,9 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { BillService } from 'src/app/services/bill.service';
-import { CustomerService } from 'src/app/services/customer.service';
-import { OrderService } from 'src/app/services/order.service';
-import { ProductService } from 'src/app/services/product.service';
-import { RelayDataService } from 'src/app/services/relay-data.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-data-table',
@@ -14,61 +9,37 @@ export class DataTableComponent implements OnInit {
   @Input() headers: string[] = [];
   @Input() records: any[] = [];
 
-  type: string = '';
-  showSpinner: boolean[] = [];
+  page: number = 1;
+  phrases: string[] = [];
+  phrase: string = '';
+  key: string = '';
+  sortHeader: string = '';
+  sortDirection: boolean = true;
+  sortDirections: boolean[] = [];
 
-  productService: ProductService = inject(ProductService);
-  customerService: CustomerService = inject(CustomerService);
-  orderService: OrderService = inject(OrderService);
-  billService: BillService = inject(BillService);
-  dataRelay: RelayDataService = inject(RelayDataService);
+  @Output() deleteItem: EventEmitter<string> = new EventEmitter();
+  @Output() editItem: EventEmitter<string> = new EventEmitter();
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.showSpinner = new Array(this.records.length).fill(false);
+  ngOnInit(): void {}
+
+  onDelete(uniqueId: string) {
+    this.deleteItem.emit(uniqueId);
   }
 
-  setItemsAndResetSpinner(items: any) {
-    this.records = [...items];
-    this.dataRelay.setItems([...items]);
-    this.showSpinner = new Array(this.records.length).fill(false);
+  onEdit(uniqueId: string) {
+    this.editItem.emit(uniqueId);
   }
 
-  onDelete(item: any, index: number) {
-    this.type = this.dataRelay.getType();
-    this.showSpinner[index] = true;
+  onPhraseChange(header: string, index: number) {
+    this.key = header;
+    this.phrase = this.phrases[index];
+  }
 
-    switch (this.type) {
-      case 'products':
-        this.productService.deleteProduct(item).subscribe((item) => {
-          this.productService.fetchProducts().subscribe((items) => {
-            this.setItemsAndResetSpinner(items);
-          });
-        });
-
-        break;
-      case 'customers':
-        this.customerService.deleteCustomer(item).subscribe((item) => {
-          this.customerService.fetchCustomers().subscribe((items) => {
-            this.setItemsAndResetSpinner(items);
-          });
-        });
-        break;
-      case 'orders':
-        this.orderService.deleteOrder(item).subscribe((item) => {
-          this.orderService.fetchOrders().subscribe((items) => {
-            this.setItemsAndResetSpinner(items);
-          });
-        });
-        break;
-      case 'bills':
-        this.billService.deleteBill(item).subscribe((item) => {
-          this.billService.fetchBills().subscribe((items) => {
-            this.setItemsAndResetSpinner(items);
-          });
-        });
-        break;
-    }
+  onSorting(header: string, index: number) {
+    this.sortHeader = header;
+    this.sortDirections[index] = !this.sortDirections[index];
+    this.sortDirection = this.sortDirections[index];
   }
 }
