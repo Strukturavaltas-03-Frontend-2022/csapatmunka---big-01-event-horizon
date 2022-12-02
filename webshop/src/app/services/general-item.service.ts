@@ -6,6 +6,8 @@ import { Bill } from '../model/bill';
 import { Customer } from '../model/customer';
 import { Order } from '../model/order';
 import { Product } from '../model/product';
+import { of } from 'rxjs';
+import { ItemList } from '../model/item-list';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +17,31 @@ export class GeneralItemService {
 
   constructor(private http: HttpClient) {}
 
+  // fetch items from all entities
+  fetchAllEntities(entityList: string[]) {
+    let allDatabaseLists: ItemList = new ItemList();
+
+    entityList.forEach((entity: string) => {
+      return this.http
+        .get<{ [key: string]: any }>(`${this.firebaseUrl}${entity}.json`)
+        .forEach((list) => {
+          allDatabaseLists[entity] = list;
+          const itemArray: any[] = [];
+          for (const key in allDatabaseLists[entity]) {
+            if (allDatabaseLists[entity].hasOwnProperty(key)) {
+              itemArray.push({
+                ...allDatabaseLists[entity][key],
+                uniqueId: key,
+              });
+            }
+          }
+          allDatabaseLists[entity] = [...itemArray];
+        });
+    });
+    return of(allDatabaseLists);
+  }
+
+  //fetch items by entity name
   fetchItems(entity: string) {
     return this.http
       .get<{ [key: string]: any }>(`${this.firebaseUrl}${entity}.json`)
@@ -31,6 +58,7 @@ export class GeneralItemService {
       );
   }
 
+  //fetch single item by entity name
   fetchSingleItem(
     uniqueId: string,
     entity: string,
@@ -61,4 +89,13 @@ export class GeneralItemService {
       item
     );
   }
+
+  /*updateAll(items: any[], entity: string) {
+    let updateObject: { [key: string]: any } = {};
+    items.forEach((item) => {
+      updateObject[item.uniqueId] = item;
+    });
+    
+    return this.http.post(`${this.firebaseUrl}${entity}.json`, updateObject);
+  }*/
 }

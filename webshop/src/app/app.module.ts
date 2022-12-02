@@ -20,6 +20,7 @@ import { SpinnerComponent } from './util/spinner/spinner.component';
 
 import { FilterPipe } from './common/data-table/filter.pipe';
 import { SortPipe } from './common/data-table/sort.pipe';
+import { TickerComponent } from './util/ticker/ticker.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SortPipe } from './common/data-table/sort.pipe';
     SpinnerComponent,
     FilterPipe,
     SortPipe,
+    TickerComponent,
   ],
   imports: [
     BrowserModule,

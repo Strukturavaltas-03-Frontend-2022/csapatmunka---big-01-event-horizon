@@ -23,3 +23,11 @@
 - Refurbished data-table component to make it dumber
 - Top navigation / Breadcrumb updated
 - Minor visual changes to color-scheme
+
+|2022.12.02. - ver. 1.10
+
+- Added option to fetch all entities together
+- Added ticker component to all pages, which displays some statistics about products and customers, orders on the bottom of the page
+- Relay data service got extended with multiple setter/getter helper functions for ticker and other components
+- Datasets got updated and linked to fit specification better
+- Nested data filtering and sorting got fixed in listing tables
