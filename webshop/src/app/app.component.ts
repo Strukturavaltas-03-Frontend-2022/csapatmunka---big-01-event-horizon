@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { Bill } from './model/bill';
 import { Customer } from './model/customer';
 import { Order } from './model/order';
@@ -18,19 +18,19 @@ export class AppComponent implements OnInit {
   generalItemService: GeneralItemService = inject(GeneralItemService);
 
   ngOnInit() {
-    this.generalItemService.fetchItems('products').subscribe((products) => {
-      this.dataRelay.setItems([...products], 'products');
-    });
-    this.generalItemService.fetchItems('customers').subscribe((customers) => {
-      this.dataRelay.setItems([...customers], 'customers');
-    });
-
-    this.generalItemService.fetchItems('orders').subscribe((orders) => {
-      this.dataRelay.setItems([...orders], 'orders');
-    });
-
-    this.generalItemService.fetchItems('bills').subscribe((bills) => {
-      this.dataRelay.setItems([...bills], 'bills');
-    });
+    this.generalItemService
+      .fetchAllEntities(['products', 'customers', 'orders', 'bills'])
+      .subscribe((data) => {
+        setTimeout(() => {
+          this.dataRelay.setAll(data);
+          this.dataRelay.setAllStatisticalData(data);
+        }, 50);
+      });
   }
+
+  /*fetchData(entity: string) {
+    this.generalItemService.fetchItems(entity).subscribe((items) => {
+      this.dataRelay.setItems([...items], entity);
+    });
+  }*/
 }

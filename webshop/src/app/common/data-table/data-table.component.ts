@@ -24,6 +24,10 @@ export class DataTableComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges(): void {
+    this.clearFilterAndSortInputs();
+  }
+
   onDelete(uniqueId: string) {
     this.deleteItem.emit(uniqueId);
   }
@@ -41,5 +45,19 @@ export class DataTableComponent implements OnInit {
     this.sortHeader = header;
     this.sortDirections[index] = !this.sortDirections[index];
     this.sortDirection = this.sortDirections[index];
+  }
+
+  clearFilterAndSortInputs() {
+    this.phrase = '';
+    this.key = '';
+    for (let i = 0; i < this.phrases.length; i++) {
+      this.phrases[i] = '';
+    }
+
+    this.sortHeader = '';
+    this.sortDirection = true;
+    for (let i = 0; i < this.sortDirections.length; i++) {
+      this.sortDirections[i] = true;
+    }
   }
 }
