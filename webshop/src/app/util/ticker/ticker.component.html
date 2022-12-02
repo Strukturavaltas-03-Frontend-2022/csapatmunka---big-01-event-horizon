@@ -1,0 +1,22 @@
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker__item">
+      All active customers: {{ statisticalData[0] }}
+    </div>
+    <div class="ticker__item">
+      Value of all cars: {{ statisticalData[1] }} CAD
+    </div>
+    <div class="ticker__item">
+      Most popular car: {{ statisticalData[2]?.type }}
+      {{ statisticalData[2]?.name }}
+    </div>
+    <div class="ticker__item">
+      Most expensive car: {{ statisticalData[3]?.type }}
+      {{ statisticalData[3]?.name }} - {{ statisticalData[3]?.price }} CAD
+    </div>
+    <div class="ticker__item">
+      Most loyal customer: {{ statisticalData[4]?.firstName }}
+      {{ statisticalData[4]?.lastName }}
+    </div>
+  </div>
+</div>
