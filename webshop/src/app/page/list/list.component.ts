@@ -74,4 +74,8 @@ export class ListComponent implements OnInit {
   getItems(type: string) {
     this.items = this.dataRelay.getItems(type);
   }
+
+  onAddNewItem(emit: boolean) {
+    this.router.navigate([`edit/0`]);
+  }
 }

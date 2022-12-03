@@ -19,6 +19,7 @@ export class DataTableComponent implements OnInit {
 
   @Output() deleteItem: EventEmitter<string> = new EventEmitter();
   @Output() editItem: EventEmitter<string> = new EventEmitter();
+  @Output() addNewItem: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {}
 
@@ -34,6 +35,10 @@ export class DataTableComponent implements OnInit {
 
   onEdit(uniqueId: string) {
     this.editItem.emit(uniqueId);
+  }
+
+  onAddNew() {
+    this.addNewItem.emit(true);
   }
 
   onPhraseChange(header: string, index: number) {
