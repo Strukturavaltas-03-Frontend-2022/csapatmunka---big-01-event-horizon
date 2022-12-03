@@ -1,6 +1,7 @@
 <app-data-table
   (deleteItem)="onDeleteItem($event)"
   (editItem)="onEditItem($event)"
+  (addNewItem)="onAddNewItem($event)"
   [records]="items"
   [headers]="headers"
 ></app-data-table>
