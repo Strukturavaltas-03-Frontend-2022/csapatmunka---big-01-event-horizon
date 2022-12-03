@@ -56,7 +56,7 @@ export class ListComponent implements OnInit {
       .subscribe((item) => {
         this.generalItemService.fetchItems(this.type).subscribe((items) => {
           this.dataRelay.setItems([...items], this.type);
-          this.toastr.error(`${item} Successfully deleted`, 'DELETE!', {
+          this.toastr.error(`Successfully deleted`, 'DELETE!', {
             timeOut: 5000,
             positionClass: 'toast-top-right',
           });

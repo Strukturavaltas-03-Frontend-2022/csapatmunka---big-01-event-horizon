@@ -26,7 +26,7 @@ export const productHeaders: string[] = [
   'active',
 ];
 
-export const HeaderControls = [
+export const productHeaderControls = [
   { key: 'id', label: '#', type: 'input', visible: false },
   { key: 'name', label: 'Name', type: 'input', visible: true },
   { key: 'type', label: 'Type', type: 'input', visible: true },
