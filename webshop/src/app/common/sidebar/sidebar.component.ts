@@ -16,6 +16,8 @@ export class SidebarComponent implements OnInit {
   config: ConfigService = inject(ConfigService);
 
   showSpinner: boolean = false;
+  clicked: boolean[] = [false, false, false, false];
+  clickedHome: boolean = true;
 
   appName: string = this.config.appName;
   //menuItems: IMenuItem[] = this.config.menuItems;
@@ -31,7 +33,19 @@ export class SidebarComponent implements OnInit {
 
   constructor() {}
 
-  onClickMenuItem(event: Event) {
+  onHomeClicked() {
+    for (let i = 0; i < this.clicked.length; i++) {
+      this.clicked[i] = false;
+    }
+    this.clickedHome = true;
+  }
+
+  onClickMenuItem(event: Event, index: number) {
+    for (let i = 0; i < this.clicked.length; i++) {
+      this.clicked[i] = false;
+    }
+    this.clicked[index] = true;
+    this.clickedHome = false;
     const target = event.target as HTMLInputElement;
     const menuItem = target.children[1].innerHTML.toLowerCase();
 
