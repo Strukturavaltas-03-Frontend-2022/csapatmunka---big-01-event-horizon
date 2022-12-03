@@ -20,11 +20,11 @@ export const customerHeaders = [
   'addCountry',
   'addCity',
   'addStreet',
-  'addNotes'
+  'addNotes',
   'active',
 ];
 
-export const customerHeadersControls = [
+export const customerHeaderControls = [
   { key: 'id', label: '#', type: 'input', visible: false },
   { key: 'firstName', label: 'First Name', type: 'input', visible: true },
   { key: 'lastName', label: 'Last Name', type: 'input', visible: true },

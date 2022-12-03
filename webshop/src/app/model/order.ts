@@ -23,7 +23,12 @@ export const orderHeaderControls = [
     label: 'Customer#',
     type: 'input',
     visible: true,
-    disabled: true,
+  },
+  {
+    key: 'productId',
+    label: 'Product#',
+    type: 'input',
+    visible: true,
   },
   { key: 'amount', label: 'Amount', type: 'input', visible: true },
   {
