@@ -25,3 +25,49 @@ export const productHeaders: string[] = [
   'featured',
   'active',
 ];
+
+export const HeaderControls = [
+  { key: 'id', label: '#', type: 'input', visible: false },
+  { key: 'name', label: 'Name', type: 'input', visible: true },
+  { key: 'type', label: 'Type', type: 'input', visible: true },
+  { key: 'catId', label: 'Category#', type: 'select', visible: false },
+  {
+    key: 'catName',
+    label: 'Category Name',
+    options: [
+      'Hathcback',
+      'Sedan',
+      'SUV',
+      'Crossover',
+      'Convertible',
+      'Coupe',
+      'Minivan',
+      'Pickup Truck',
+      'Sports Car',
+      'Muscle Car',
+    ],
+    type: 'select',
+    visible: true,
+  },
+  {
+    key: 'catDescription',
+    label: 'Category Desc.',
+    type: 'textarea',
+    visible: false,
+  },
+  {
+    key: 'description',
+    label: 'Description',
+    options: ['Used', 'Test', 'New'],
+    type: 'select',
+    visible: true,
+  },
+  { key: 'price', label: 'Price', type: 'input', visible: true },
+  {
+    key: 'featured',
+    label: 'Featured',
+    type: 'checkbox',
+    visible: true,
+  },
+  { key: 'active', label: 'Active', type: 'checkbox', visible: true },
+];
