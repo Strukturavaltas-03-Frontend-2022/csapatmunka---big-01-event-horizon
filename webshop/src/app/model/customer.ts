@@ -20,7 +20,7 @@ export const customerHeaders = [
   'addCountry',
   'addCity',
   'addStreet',
-  'addNotes'
+  'addNotes',
   'active',
 ];
 
