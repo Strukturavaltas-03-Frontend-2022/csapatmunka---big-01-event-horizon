@@ -1,16 +1,15 @@
-<div
-  class="d-flex flex-column vh-100 vw-100 justify-content-center align-items-center bg-light"
->
-  <div class="tab-content col-lg-2">
+<div class="row mx-0 pt-5">
+  <div style="width: 500px" class="p-5 rounded bg-dark text-white p-2">
+    <h2 class="text-center text-white">Data Editor</h2>
+
     <form (ngSubmit)="onSubmit()" [formGroup]="editor">
-      <h3 class="text-center mb-4">Please sign in to access this content</h3>
-      <div
-        *ngFor="let control of headerControls"
-        class="form-group form-outline mb-1 form-field"
-      >
-        <label [hidden]="!control.visible"> {{ control.label }} </label>
+      <div *ngFor="let control of headerControls" class="form-group py-2">
+        <label class="text-white" [hidden]="!control.visible">
+          {{ control.label }}
+        </label>
         <ng-container [ngSwitch]="control.type">
           <select
+            class="form-control bg-light"
             [(ngModel)]="
               control.key === 'catName'
                 ? item['category'].name
@@ -18,12 +17,15 @@
                 ? item['category'].id
                 : control.key === 'catDescription'
                 ? item['category'].description
+                : control.key === 'addCountry'
+                ? item['address'].country
+                : control.key === 'addNotes'
+                ? item['address'].notes
                 : item[control.key]
             "
             *ngSwitchCase="'select'"
             [formControlName]="control.key"
             [name]="control.key"
-            class="border-dark rounded"
             [hidden]="!control.visible"
           >
             <option *ngFor="let opt of control.options" [value]="opt">
@@ -31,22 +33,39 @@
             </option>
           </select>
           <textarea
+            class="form-control bg-light"
             *ngSwitchCase="'textarea'"
             [formControlName]="control.key"
             [name]="control.key"
-            class="border-dark rounded"
             [hidden]="!control.visible"
             [(ngModel)]="item[control.key]"
           ></textarea>
           <input
-            *ngSwitchDefault
+            class="bg-light border-0 form-check-input"
+            *ngSwitchCase="'checkbox'"
+            [(ngModel)]="item[control.key]"
             [formControlName]="control.key"
             [name]="control.key"
             [type]="control.type || 'text'"
-            class="border-dark rounded"
             [hidden]="!control.visible"
-            [(ngModel)]="item[control.key]"
             [checked]="item[control.key]"
+          />
+          <input
+            class="form-control bg-light"
+            *ngSwitchDefault
+            [(ngModel)]="
+              control.key === 'addZip'
+                ? item['address'].zip
+                : control.key === 'addCity'
+                ? item['address'].city
+                : control.key === 'addStreet'
+                ? item['address'].street
+                : item[control.key]
+            "
+            [formControlName]="control.key"
+            [name]="control.key"
+            [type]="control.type || 'text'"
+            [hidden]="!control.visible"
           />
         </ng-container>
       </div>
@@ -54,7 +73,8 @@
       <button
         [disabled]="editor.invalid"
         type="submit"
-        class="btn btn-dark btn-block mb-4"
+        class="btn btn-block my-2 w-100"
+        [ngClass]="editor.valid ? 'btn-success' : 'btn-error'"
       >
         Save
       </button>
