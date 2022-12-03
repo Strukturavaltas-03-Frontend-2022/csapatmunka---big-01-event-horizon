@@ -33,3 +33,11 @@
 - Relay data service got extended with multiple setter/getter helper functions for ticker and other components
 - Datasets got updated and linked to fit specification better
 - Nested data filtering and sorting got fixed in listing tables
+
+|2022.12.03. - ver. 1.15
+
+- Updated models in preparation of data editor
+- Added data editor with dynamically generated reactive form inputs
+- Added New Item / Edit item CRUD functionality
+- Toastr messages got updated accordingly
+
