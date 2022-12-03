@@ -16,6 +16,10 @@ export const customerHeaders = [
   'firstName',
   'lastName',
   'email',
-  'address',
+  'addZip',
+  'addCountry',
+  'addCity',
+  'addStreet',
+  'addNotes',
   'active',
 ];

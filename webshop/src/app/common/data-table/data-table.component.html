@@ -1,80 +1,98 @@
 <button class="btn btn-info w-100">
   <i class="fa fa-plus" aria-hidden="true"></i>
 </button>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th
-        *ngFor="let header of headers; let i = index"
-        (click)="onSorting(header, i)"
-      >
-        {{ header }}
-        <i
-          [ngClass]="
-            sortDirections[i] === true ? 'fa-sort-desc' : 'fa-sort-asc'
-          "
-          class="fa"
-          aria-hidden="true"
-        ></i>
-      </th>
-      <th>Actions</th>
-      <!-- <th>Progress</th> -->
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td *ngFor="let header of headers; let i = index">
-        <input
-          [(ngModel)]="phrases[i]"
-          (keyup)="onPhraseChange(header, i)"
-          type="text"
-          [placeholder]="header"
-        />
-      </td>
-      <td></td>
-      <!-- <td></td> -->
-    </tr>
-    <tr
-      *ngFor="
-        let item of records
-          | filter: key:phrase
-          | sort: sortDirection:sortHeader
-          | paginate: { itemsPerPage: 9, currentPage: page };
-        let i = index
-      "
-    >
-      <td *ngFor="let header of headers">
-        <div *ngIf="!header.includes('cat')">{{ item[header] }}</div>
-        <div *ngIf="header === 'catId'">
-          {{ item["category"].id }}
-        </div>
-        <div *ngIf="header === 'catName'">{{ item["category"].name }}</div>
-        <div
-          style="word-wrap: break-word; max-width: 150px"
-          *ngIf="header === 'catDescription'"
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let header of headers; let i = index"
+          (click)="onSorting(header, i)"
         >
-          {{ item["category"].description }}
-        </div>
-      </td>
-      <td>
-        <div class="btn-group">
-          <button (click)="onEdit(item.uniqueId)" class="btn btn-dark">
-            <i class="fa fa-edit"></i>
-          </button>
-          <button (click)="onDelete(item.uniqueId)" class="btn btn-warning">
-            <i class="fa fa-trash"></i>
-          </button>
-        </div>
-      </td>
-      <!-- <td>
-        <div class="my-auto d-flex justify-content-center align-items-center">
-          <app-spinner width="30"></app-spinner>
-        </div>
-      </td> -->
-    </tr>
-  </tbody>
-</table>
+          {{ header }}
+          <i
+            [ngClass]="
+              sortDirections[i] === true ? 'fa-sort-desc' : 'fa-sort-asc'
+            "
+            class="fa"
+            aria-hidden="true"
+          ></i>
+        </th>
+        <th>Actions</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td *ngFor="let header of headers; let i = index">
+          <input
+            class="w-75"
+            [(ngModel)]="phrases[i]"
+            (keyup)="onPhraseChange(header, i)"
+            type="text"
+            [placeholder]="header"
+          />
+        </td>
+        <td></td>
+    
+      </tr>
+      <tr
+        *ngFor="
+          let item of records
+            | filter : key : phrase
+            | sort : sortDirection : sortHeader
+            | paginate : { itemsPerPage: 9, currentPage: page };
+          let i = index
+        "
+      >
+        <td
+          *ngFor="let header of headers"
+          style="word-wrap: break-word; word-break: break-word"
+        >
+          <ng-container [ngSwitch]="header">
+            <div *ngSwitchCase="'catId'">
+              {{ item["category"].id }}
+            </div>
+            <div *ngSwitchCase="'catName'">
+              {{ item["category"].name }}
+            </div>
+            <div *ngSwitchCase="'catDescription'">
+              {{ item["category"].description }}
+            </div>
+            <div *ngSwitchCase="'addZip'">
+              {{ item["address"].zip }}
+            </div>
+            <div *ngSwitchCase="'addCountry'">
+              {{ item["address"].country }}
+            </div>
+            <div *ngSwitchCase="'addCity'">
+              {{ item["address"].city }}
+            </div>
+            <div *ngSwitchCase="'addStreet'">
+              {{ item["address"].street }}
+            </div>
+            <div *ngSwitchCase="'addNotes'">
+              {{ item["address"].notes }}
+            </div>
+            <div *ngSwitchDefault>{{ item[header] }}</div>
+          </ng-container>
+        </td>
+        <td>
+          <div class="btn-group">
+            <button (click)="onEdit(item.uniqueId)" class="btn btn-dark">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button (click)="onDelete(item.uniqueId)" class="btn btn-warning">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-<div class="pagination d-flex justify-content-center">
+
+<div class="pagination pt-2 d-flex justify-content-center">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>
