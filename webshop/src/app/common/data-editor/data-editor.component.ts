@@ -3,7 +3,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ignoreElements } from 'rxjs';
-import { Bill, billHeaders } from 'src/app/model/bill';
+import { Bill, billHeaderControls, billHeaders } from 'src/app/model/bill';
 import {
   Customer,
   customerHeaderControls,
@@ -59,7 +59,7 @@ export class DataEditorComponent implements OnInit {
       case 'bills':
         this.item = new Bill();
         this.headers = billHeaders;
-        //this.headerControls = BillHeaderControls;
+        this.headerControls = billHeaderControls;
         break;
     }
     this.activatedRoute.params.subscribe((params) => {
