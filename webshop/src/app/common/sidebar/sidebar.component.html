@@ -29,8 +29,10 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a
-          class="nav-link active text-white bg-gradient-info"
+          class="nav-link text-white bg-gradient-secondary"
           [routerLink]="['/']"
+          [ngClass]="clickedHome === true ? 'active bg-gradient-info' : ''"
+          (click)="onHomeClicked()"
         >
           <div
             class="text-white text-center me-2 d-flex align-items-center justify-content-center"
@@ -43,8 +45,9 @@
 
       <li *ngFor="let item of menuItems; let i = index" class="nav-item">
         <a
-          (click)="onClickMenuItem($event)"
-          class="nav-link active text-white bg-gradient-info cursor-pointer"
+          (click)="onClickMenuItem($event, i)"
+          [ngClass]="clicked[i] === true ? 'active bg-gradient-info' : ''"
+          class="nav-link text-white bg-gradient-secondary cursor-pointer"
         >
           <div
             class="text-white text-center me-2 d-flex align-items-center justify-content-center"
