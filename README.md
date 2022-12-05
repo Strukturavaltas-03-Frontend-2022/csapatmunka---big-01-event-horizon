@@ -41,3 +41,9 @@
 - Added New Item / Edit item CRUD functionality
 - Toastr messages got updated accordingly
 
+|2022.12.04. - ver. 1.20
+
+- Bugfixing, optimizing / refactoring code
+- Full service logic got revamped and changed to BehaviorSubjects in hopes of better access to all database lists on app initialization. Issue still persists, either the data arrives later than init or combineLatest fires multiple times, either way can't properly work with data on starter components. Running in circles...
+- Added 3 piecharts to dashboard
+
