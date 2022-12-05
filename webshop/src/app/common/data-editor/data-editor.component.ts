@@ -135,10 +135,9 @@ export class DataEditorComponent implements OnInit {
   getControlValuesOfSelectFields() {
     if (this.itemType === 'products') {
       this.item.category.name = this.editor.controls['catName'].value;
-      this.item.active =
-        this.editor.controls['active'].value === 'true' ? true : false;
-      this.item.featured =
-        this.editor.controls['featured'].value === 'true' ? true : false;
+
+      this.item.active = this.editor.controls['active'].value;
+      this.item.featured = this.editor.controls['featured'].value;
       this.item.price = Number(this.editor.controls['price'].value);
       this.setNonEditableCategoryData();
     } else if (this.itemType === 'customers') {
@@ -148,8 +147,7 @@ export class DataEditorComponent implements OnInit {
             this.editor.controls[key].value;
         }
       });
-      this.item.active =
-        this.editor.controls['active'].value === 'true' ? true : false;
+      this.item.active = this.editor.controls['active'].value;
     } else if (this.itemType === 'orders') {
       this.item.customerId = Number(this.editor.controls['customerId'].value);
       this.item.productId = Number(this.editor.controls['productId'].value);
