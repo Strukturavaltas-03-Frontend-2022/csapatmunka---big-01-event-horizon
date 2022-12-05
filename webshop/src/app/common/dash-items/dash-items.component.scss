@@ -1,0 +1,81 @@
+//  <div class="ticker-wrapper">
+// <div class="bigHeading">Dealership NEWS</div>
+// <div class="text-update">
+// <p> Live update: bla bla bla </p>
+// </div>
+// </div>
+
+.ticker-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  padding-top: 200px;
+}
+.bigHeading {
+  display: block;
+  position: absolute;
+  font-style: italic;
+  font-size: 40px;
+  background: red;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.bigHeading::after,
+.bigHeading::before {
+  content: "";
+  width: 0;
+  position: absolute;
+  border-width: 78px;
+  border-style: solid;
+  top: 0;
+  z-index: -1;
+}
+
+.bigHeading::before {
+  border-color: #e60000 transparent transparent transparent;
+  right: -78px;
+}
+.bigHeading::after {
+  border-color: transparent transparent #e60000 transparent;
+  left: -78px;
+  top: 78px;
+}
+
+.text-update {
+  height: 70px;
+  background: #004fff;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 25px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  left: 12px;
+}
+
+.text-update p {
+  position: absolute;
+  width: 150%;
+  margin: 0;
+  font-weight: 700;
+  text-align: left;
+
+  transform: translateX(100%);
+  animation: moving 25s linear infinite;
+}
+
+@keyframes moving {
+  0% {
+    transfor: translateX(100%);
+  }
+  100% {
+    transfor: translateX(-100%);
+  }
+}
