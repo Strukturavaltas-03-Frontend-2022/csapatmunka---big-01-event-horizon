@@ -1,13 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RelayDataService } from 'src/app/services/relay-data.service';
 import { inject } from '@angular/core';
-import { customerHeaders } from 'src/app/model/customer';
-import { productHeaders } from 'src/app/model/product';
-import { orderHeaders } from 'src/app/model/order';
-import { billHeaders } from 'src/app/model/bill';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GeneralItemService } from 'src/app/services/general-item.service';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { BehaviorItemList } from 'src/app/model/item-list';
+import { HeaderList } from 'src/app/model/headers';
 
 @Component({
   selector: 'app-list',
@@ -18,6 +17,7 @@ export class ListComponent implements OnInit {
   items: any[] = [];
   type: string = '';
 
+  headerList: HeaderList = new HeaderList();
   headers: string[] = [];
 
   dataRelay: RelayDataService = inject(RelayDataService);
@@ -25,28 +25,21 @@ export class ListComponent implements OnInit {
   generalItemService: GeneralItemService = inject(GeneralItemService);
   router: Router = inject(Router);
 
+  allDataLists$: Observable<BehaviorItemList> =
+    this.generalItemService.listOfAll$;
+
   constructor(private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      this.getItems(params['type']);
-
-      this.type = this.dataRelay.getType();
-
-      switch (this.type) {
-        case 'products':
-          this.headers = productHeaders;
-          break;
-        case 'customers':
-          this.headers = customerHeaders;
-          break;
-        case 'orders':
-          this.headers = orderHeaders;
-          break;
-        case 'bills':
-          this.headers = billHeaders;
-          break;
-      }
+      this.type = params['type'];
+      this.dataRelay.setType(this.type);
+      this.headers = this.headerList[this.type];
+      this.allDataLists$.subscribe((list) => {
+        list[this.type].subscribe((data: any) => {
+          this.items = data;
+        });
+      });
     });
   }
 
@@ -54,25 +47,26 @@ export class ListComponent implements OnInit {
     this.generalItemService
       .deleteItem(uniqueId, this.type)
       .subscribe((item) => {
-        this.generalItemService.fetchItems(this.type).subscribe((items) => {
-          this.dataRelay.setItems([...items], this.type);
-          this.toastr.error(`Successfully deleted`, 'DELETE!', {
-            timeOut: 5000,
-            positionClass: 'toast-top-right',
+        this.allDataLists$.subscribe((list) => {
+          list[this.type].subscribe((data: any) => {
+            const index = data.findIndex(
+              (item: any) => item.uniqueId === uniqueId
+            );
+            data = data.splice(index, 1);
+            this.toastr.error(`Successfully deleted`, 'DELETE!', {
+              timeOut: 5000,
+              positionClass: 'toast-top-right',
+            });
+            // this.router
+            //   .navigate(['/'])
+            //   .then(() => this.router.navigate(['/list/', this.type]));
           });
-          this.router
-            .navigate(['/'])
-            .then(() => this.router.navigate(['/list/', this.type]));
         });
       });
   }
 
   onEditItem(uniqueId: string) {
     this.router.navigate([`edit/${uniqueId}`]);
-  }
-
-  getItems(type: string) {
-    this.items = this.dataRelay.getItems(type);
   }
 
   onAddNewItem(emit: boolean) {
