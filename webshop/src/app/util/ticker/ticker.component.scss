@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-$duration: 30s;
+$duration: 25s;
 
 @-webkit-keyframes ticker {
   0% {
@@ -37,7 +37,7 @@ $duration: 30s;
   width: 100%;
   overflow: hidden;
   height: 2rem;
-  background-color: rgba(rgb(62, 144, 195), 0.75);
+  background-color: rgba(rgb(0, 0, 0), 1);
   padding-left: 100%;
   box-sizing: content-box;
 
@@ -61,7 +61,7 @@ $duration: 30s;
     &__item {
       display: inline-block;
 
-      padding: 0 1rem;
+      padding: 0 7rem;
       font-size: 1rem;
       color: white;
     }

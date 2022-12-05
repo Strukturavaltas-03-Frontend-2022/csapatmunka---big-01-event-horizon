@@ -8,14 +8,6 @@ export class Order {
   status: string[] = [];
 }
 
-export const orderHeaders: string[] = [
-  'id',
-  'customerId',
-  'productId',
-  'amount',
-  'status',
-];
-
 export const orderHeaderControls = [
   { key: 'id', label: '#', type: 'input', visible: false },
   {

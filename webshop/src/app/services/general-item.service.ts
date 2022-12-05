@@ -6,8 +6,8 @@ import { Bill } from '../model/bill';
 import { Customer } from '../model/customer';
 import { Order } from '../model/order';
 import { Product } from '../model/product';
-import { of } from 'rxjs';
-import { ItemList } from '../model/item-list';
+import { BehaviorSubject } from 'rxjs';
+import { BehaviorItemList } from '../model/item-list';
 
 @Injectable({
   providedIn: 'root',
@@ -17,62 +17,57 @@ export class GeneralItemService {
 
   constructor(private http: HttpClient) {}
 
-  // fetch items from all entities
-  fetchAllEntities(entityList: string[]) {
-    let allDatabaseLists: ItemList = new ItemList();
+  listOfAll$: BehaviorSubject<BehaviorItemList> =
+    new BehaviorSubject<BehaviorItemList>({
+      products: new BehaviorSubject<Product[]>([]),
+      customers: new BehaviorSubject<Customer[]>([]),
+      orders: new BehaviorSubject<Order[]>([]),
+      bills: new BehaviorSubject<Bill[]>([]),
+    });
 
+  products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  customers$: BehaviorSubject<Customer[]> = new BehaviorSubject<Customer[]>([]);
+  orders$: BehaviorSubject<Order[]> = new BehaviorSubject<Order[]>([]);
+  bills$: BehaviorSubject<Bill[]> = new BehaviorSubject<Bill[]>([]);
+
+  fetchAllListsFromAllEntities(entityList: string[]): void {
     entityList.forEach((entity: string) => {
-      return this.http
+      this.http
         .get<{ [key: string]: any }>(`${this.firebaseUrl}${entity}.json`)
-        .forEach((list) => {
-          allDatabaseLists[entity] = list;
-          const itemArray: any[] = [];
-          for (const key in allDatabaseLists[entity]) {
-            if (allDatabaseLists[entity].hasOwnProperty(key)) {
-              itemArray.push({
-                ...allDatabaseLists[entity][key],
-                uniqueId: key,
-              });
+        .pipe(
+          map((responseData) => {
+            const itemArray: any[] = [];
+            for (const key in responseData) {
+              if (responseData.hasOwnProperty(key)) {
+                itemArray.push({ ...responseData[key], uniqueId: key });
+              }
             }
+            return itemArray;
+          })
+        )
+        .subscribe((data) => {
+          switch (entity) {
+            case 'products':
+              this.products$.next(data);
+              this.listOfAll$.value.products.next(data);
+
+              break;
+            case 'customers':
+              this.customers$.next(data);
+              this.listOfAll$.value.customers.next(data);
+
+              break;
+            case 'orders':
+              this.orders$.next(data);
+              this.listOfAll$.value.orders.next(data);
+
+              break;
+            case 'bills':
+              this.bills$.next(data);
+              this.listOfAll$.value.bills.next(data);
           }
-          allDatabaseLists[entity] = [...itemArray];
         });
     });
-    return of(allDatabaseLists);
-  }
-
-  //fetch items by entity name
-  fetchItems(entity: string) {
-    return this.http
-      .get<{ [key: string]: any }>(`${this.firebaseUrl}${entity}.json`)
-      .pipe(
-        map((responseData) => {
-          const itemArray: any[] = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              itemArray.push({ ...responseData[key], uniqueId: key });
-            }
-          }
-          return itemArray;
-        })
-      );
-  }
-
-  //fetch single item by entity name
-  fetchSingleItem(
-    uniqueId: string,
-    entity: string,
-    model: Customer | Product | Order | Bill
-  ) {
-    return this.http
-      .get<typeof model>(`${this.firebaseUrl}${entity}/${uniqueId}.json`)
-      .pipe(
-        map((responseData) => {
-          responseData['uniqueId'] = uniqueId;
-
-          return responseData;
-        })
-      );
   }
 
   addItem(newItem: Customer | Product | Order | Bill, entity: string) {
@@ -89,13 +84,4 @@ export class GeneralItemService {
       item
     );
   }
-
-  /*updateAll(items: any[], entity: string) {
-    let updateObject: { [key: string]: any } = {};
-    items.forEach((item) => {
-      updateObject[item.uniqueId] = item;
-    });
-    
-    return this.http.post(`${this.firebaseUrl}${entity}.json`, updateObject);
-  }*/
 }
