@@ -75,49 +75,6 @@ export class DashItemsComponent implements OnInit {
   );
 
   ngOnInit() {
-    this.combinedList.subscribe((list) => {
-      this.statCalculations();
-    });
-  }
-
-  statCalculations() {
-    this.allItems.bills.forEach((bill) => {
-      if (bill.status.includes('new')) this.newBills += 1;
-      else this.paidBills += 1;
-    });
-
-    this.allItems.orders.forEach((order) => {
-      if (order.status.includes('new')) this.newOrders += 1;
-      else if (order.status.includes('paid')) this.paidOrders += 1;
-      else this.shippedOrders += 1;
-    });
-
-    this.allItems.products.forEach((product) => {
-      if (product.description.includes('New')) this.newCars += 1;
-      else if (product.description.includes('Used')) this.usedCars += 1;
-      else this.testCars += 1;
-    });
-
-    this.allItems.orders.forEach((order: Order) => {
-      this.ordersByCar[order.productId - 1] += order.amount;
-    });
-
-    /* this.ordersByCar.forEach((amount, i) => {
-      this.allCars.forEach((car, j) => {
-        if (i + 1 === car.id) {
-          car.orderAmount = amount;
-        }
-      });
-    });*/
-
-    /*allCars.sort((a: iCar, b: iCar) => {
-      return b.orderAmount - a.orderAmount;
-    });*/
-
-    // const sortedCars = this.ordersByCar.sort((a, b) => a - b);
-    //  this.top5MostPopularCarMake= sortedCars.slice(0,5)
-    // const mostPopularCarIndex = ordersByCar.indexOf(max) + 1;
-
     this.billStatusChart = {
       series: [this.newBills, this.paidBills],
       colors: ['#6c9dda', '#99516b'],
@@ -222,5 +179,60 @@ export class DashItemsComponent implements OnInit {
         fillSeriesColor: true,
       },
     };
+    this.combinedList.subscribe((list) => {
+      this.statCalculations();
+    });
+  }
+
+  statCalculations() {
+    this.allItems.bills.forEach((bill) => {
+      if (bill.status?.includes('new')) this.newBills += 1;
+      else this.paidBills += 1;
+    });
+    this.billStatusChart.series = [this.newBills, this.paidBills];
+
+    this.allItems.orders.forEach((order) => {
+      if (order.status?.includes('new')) this.newOrders += 1;
+      else if (order.status?.includes('paid')) this.paidOrders += 1;
+      else this.shippedOrders += 1;
+    });
+
+    this.orderStatusChart.series = [
+      this.newOrders,
+      this.paidOrders,
+      this.shippedOrders,
+    ];
+
+    this.allItems.products.forEach((product) => {
+      if (product.description?.includes('New')) this.newCars += 1;
+      else if (product.description?.includes('Used')) this.usedCars += 1;
+      else this.testCars += 1;
+    });
+
+    this.productDescriptionChart.series = [
+      this.newCars,
+      this.testCars,
+      this.usedCars,
+    ];
+
+    this.allItems.orders.forEach((order: Order) => {
+      this.ordersByCar[order.productId - 1] += order.amount;
+    });
+
+    /* this.ordersByCar.forEach((amount, i) => {
+      this.allCars.forEach((car, j) => {
+        if (i + 1 === car.id) {
+          car.orderAmount = amount;
+        }
+      });
+    });*/
+
+    /*allCars.sort((a: iCar, b: iCar) => {
+      return b.orderAmount - a.orderAmount;
+    });*/
+
+    // const sortedCars = this.ordersByCar.sort((a, b) => a - b);
+    //  this.top5MostPopularCarMake= sortedCars.slice(0,5)
+    // const mostPopularCarIndex = ordersByCar.indexOf(max) + 1;
   }
 }

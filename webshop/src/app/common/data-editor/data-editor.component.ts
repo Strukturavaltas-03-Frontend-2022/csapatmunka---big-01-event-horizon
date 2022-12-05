@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Bill, billHeaderControls } from 'src/app/model/bill';
 import { Customer, customerHeaderControls } from 'src/app/model/customer';
-import { HeaderList } from 'src/app/model/headers';
 import { BehaviorItemList } from 'src/app/model/item-list';
 import { Order, orderHeaderControls } from 'src/app/model/order';
 import { Product, productHeaderControls } from 'src/app/model/product';
@@ -23,12 +22,10 @@ export class DataEditorComponent implements OnInit {
   generalItemService: GeneralItemService = inject(GeneralItemService);
   router: Router = inject(Router);
   itemType: string = '';
-  headers: string[] = [];
-  headerList: HeaderList = new HeaderList();
   headerControls: any[] = [];
   editor: FormGroup = new FormGroup({});
-
-  item: any = {};
+  action: string = '';
+  item!: Product | Customer | Order | Bill;
 
   allDataLists$: Observable<BehaviorItemList> =
     this.generalItemService.listOfAll$;
@@ -41,28 +38,25 @@ export class DataEditorComponent implements OnInit {
     switch (this.itemType) {
       case 'products':
         this.item = new Product();
-        this.headers = this.headerList.products;
         this.headerControls = productHeaderControls;
         break;
       case 'customers':
         this.item = new Customer();
-        this.headers = this.headerList.customers;
         this.headerControls = customerHeaderControls;
         break;
       case 'orders':
         this.item = new Order();
-        this.headers = this.headerList.orders;
         this.headerControls = orderHeaderControls;
         break;
       case 'bills':
         this.item = new Bill();
-        this.headers = this.headerList.bills;
         this.headerControls = billHeaderControls;
         break;
     }
 
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] !== '0') {
+        this.action = 'editor';
         this.allDataLists$.subscribe((list) =>
           list[this.itemType].subscribe((items: any) => {
             this.item = items.filter(
@@ -70,15 +64,18 @@ export class DataEditorComponent implements OnInit {
             )[0];
           })
         );
+      } else {
+        this.action = 'creator';
       }
-      this.generateInputs(this.item);
+
+      this.generateInputs();
     });
   }
 
-  generateInputs(item: any) {
-    this.headerControls.forEach(
-      (header) => (this.editor.controls[header.key] = new FormControl(''))
-    );
+  generateInputs() {
+    this.headerControls.forEach((header) => {
+      this.editor.controls[header.key] = new FormControl('');
+    });
   }
 
   onSubmit() {
@@ -88,24 +85,18 @@ export class DataEditorComponent implements OnInit {
       let newId: number = 0;
       this.allDataLists$.subscribe((list) =>
         list[this.itemType].subscribe(
-          (data: any) => (newId = data.slice(-1)[0].id + 1)
+          (data: any) => (newId = data.slice(-1)[0].id)
         )
       );
 
-      this.item.id = newId;
+      this.item.id = newId + 1;
 
-      switch (this.itemType) {
-        case 'customers':
-          this.getControlValuesOfSelectFields('add');
-          break;
-        case 'products':
-          this.getControlValuesOfSelectFields('cat');
-          break;
-      }
+      this.getControlValuesOfSelectFields();
 
       this.generalItemService
         .addItem(this.item, this.itemType)
-        .subscribe((createdItem) => {
+        .subscribe((createdItem: any) => {
+          this.item.uniqueId = createdItem['name'];
           this.allDataLists$.subscribe((list) => {
             list[this.itemType].subscribe((data: any) => {
               data.push(this.item);
@@ -120,14 +111,7 @@ export class DataEditorComponent implements OnInit {
     }
     // editing item
     else {
-      switch (this.itemType) {
-        case 'customers':
-          this.getControlValuesOfSelectFields('add');
-          break;
-        case 'products':
-          this.getControlValuesOfSelectFields('cat');
-          break;
-      }
+      this.getControlValuesOfSelectFields();
 
       this.generalItemService
         .updateItem(this.item, this.itemType)
@@ -137,7 +121,6 @@ export class DataEditorComponent implements OnInit {
               data.filter(
                 (item: any) => editedItem.uniqueId === item.uniqueId
               )[0] = editedItem;
-
               this.toastr.info(`Successfully edited`, 'EDIT!', {
                 timeOut: 5000,
                 positionClass: 'toast-top-right',
@@ -149,12 +132,43 @@ export class DataEditorComponent implements OnInit {
     }
   }
 
-  getControlValuesOfSelectFields(param: string) {
-    Object.keys(this.editor.controls).forEach((key) => {
-      if (key.includes(param)) {
-        this.item.address[key.slice(3).toLowerCase()] =
-          this.editor.controls[key].value;
-      }
-    });
+  getControlValuesOfSelectFields() {
+    if (this.itemType === 'products') {
+      this.item.category.name = this.editor.controls['catName'].value;
+      this.item.active =
+        this.editor.controls['active'].value === 'true' ? true : false;
+      this.item.featured =
+        this.editor.controls['featured'].value === 'true' ? true : false;
+      this.item.price = Number(this.editor.controls['price'].value);
+      this.setNonEditableCategoryData();
+    } else if (this.itemType === 'customers') {
+      Object.keys(this.editor.controls).forEach((key) => {
+        if (key.includes('add')) {
+          this.item.address[key.slice(3).toLowerCase()] =
+            this.editor.controls[key].value;
+        }
+      });
+      this.item.active =
+        this.editor.controls['active'].value === 'true' ? true : false;
+    } else if (this.itemType === 'orders') {
+      this.item.customerId = Number(this.editor.controls['customerId'].value);
+      this.item.productId = Number(this.editor.controls['productId'].value);
+      this.item.amount = Number(this.editor.controls['amount'].value);
+    } else if (this.itemType === 'bills') {
+      this.item.orderId = Number(this.editor.controls['orderId'].value);
+      this.item.amount = Number(this.editor.controls['amount'].value);
+    }
+  }
+
+  setNonEditableCategoryData() {
+    const categoryName = this.editor.controls['catName'].value;
+    const indexOfCategory =
+      this.headerControls[4].options.indexOf(categoryName);
+    let categoryId: string = '';
+    let categoryDescription: string = '';
+    categoryId = this.headerControls[3].options[indexOfCategory];
+    categoryDescription = this.headerControls[5].options[indexOfCategory];
+    this.item['category'].id = Number(categoryId);
+    this.item['category'].description = categoryDescription;
   }
 }
