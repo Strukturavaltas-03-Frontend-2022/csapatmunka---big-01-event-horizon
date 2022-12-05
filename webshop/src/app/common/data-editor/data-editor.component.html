@@ -2,7 +2,7 @@
   <div style="width: 500px" class="p-5 rounded bg-dark text-white p-2">
     <h2 class="text-center text-white">Data Editor</h2>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="editor">
+    <form (ngSubmit)="onSubmit()" [formGroup]="editor" class="overflow-auto">
       <div *ngFor="let control of headerControls" class="form-group py-2">
         <label class="text-white" [hidden]="!control.visible">
           {{ control.label }}

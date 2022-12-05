@@ -13,19 +13,6 @@ export class Product {
   active: boolean = false;
 }
 
-export const productHeaders: string[] = [
-  'id',
-  'name',
-  'type',
-  'catId',
-  'catName',
-  'catDescription',
-  'description',
-  'price',
-  'featured',
-  'active',
-];
-
 export const productHeaderControls = [
   { key: 'id', label: '#', type: 'input', visible: false },
   { key: 'name', label: 'Name', type: 'input', visible: true },

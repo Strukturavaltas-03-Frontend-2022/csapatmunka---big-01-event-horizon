@@ -11,19 +11,6 @@ export class Customer {
   active: boolean = false;
 }
 
-export const customerHeaders = [
-  'id',
-  'firstName',
-  'lastName',
-  'email',
-  'addZip',
-  'addCountry',
-  'addCity',
-  'addStreet',
-  'addNotes',
-  'active',
-];
-
 export const customerHeaderControls = [
   { key: 'id', label: '#', type: 'input', visible: false },
   { key: 'firstName', label: 'First Name', type: 'input', visible: true },

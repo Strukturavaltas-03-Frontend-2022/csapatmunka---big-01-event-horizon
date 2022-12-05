@@ -1,4 +1,4 @@
-<button (click)="onAddNew()"  class="btn btn-info w-100">
+<button (click)="onAddNew()" class="btn btn-info w-100">
   <i class="fa fa-plus" aria-hidden="true"></i>
 </button>
 <div class="table-responsive">
@@ -19,7 +19,6 @@
           ></i>
         </th>
         <th>Actions</th>
-        
       </tr>
     </thead>
     <tbody>
@@ -30,11 +29,10 @@
             [(ngModel)]="phrases[i]"
             (keyup)="onPhraseChange(header, i)"
             type="text"
-            [placeholder]="header"
+            placeholder="filter by {{ header }}"
           />
         </td>
         <td></td>
-    
       </tr>
       <tr
         *ngFor="
@@ -91,7 +89,6 @@
     </tbody>
   </table>
 </div>
-
 
 <div class="pagination pt-2 d-flex justify-content-center">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
