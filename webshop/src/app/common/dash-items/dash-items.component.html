@@ -1,0 +1,45 @@
+<div class="d-flex">
+  <div class="charts">
+    <div *ngIf="billStatusChart" class="p-5" id="chart">
+      <apx-chart
+        [series]="billStatusChart?.series"
+        [chart]="billStatusChart?.chart"
+        [labels]="billStatusChart?.labels"
+        [responsive]="billStatusChart?.responsive"
+        [legend]="billStatusChart?.legend"
+        [stroke]="billStatusChart?.stroke"
+        [fill]="billStatusChart?.fill"
+        [tooltip]="billStatusChart?.tooltip"
+        [colors]="billStatusChart?.colors"
+      ></apx-chart>
+    </div>
+
+    <div *ngIf="orderStatusChart" class="p-5" id="chart">
+      <apx-chart
+        [series]="orderStatusChart?.series"
+        [chart]="orderStatusChart?.chart"
+        [labels]="orderStatusChart?.labels"
+        [responsive]="orderStatusChart?.responsive"
+        [legend]="orderStatusChart?.legend"
+        [stroke]="orderStatusChart?.stroke"
+        [fill]="orderStatusChart?.fill"
+        [tooltip]="orderStatusChart?.tooltip"
+        [colors]="orderStatusChart?.colors"
+      ></apx-chart>
+    </div>
+
+    <div *ngIf="productDescriptionChart" class="p-5" id="chart">
+      <apx-chart
+        [series]="productDescriptionChart?.series"
+        [chart]="productDescriptionChart?.chart"
+        [labels]="productDescriptionChart?.labels"
+        [responsive]="productDescriptionChart?.responsive"
+        [legend]="productDescriptionChart?.legend"
+        [stroke]="productDescriptionChart?.stroke"
+        [fill]="productDescriptionChart?.fill"
+        [tooltip]="productDescriptionChart?.tooltip"
+        [colors]="productDescriptionChart?.colors"
+      ></apx-chart>
+    </div>
+  </div>
+</div>

@@ -2,19 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ignoreElements } from 'rxjs';
-import { Bill, billHeaders } from 'src/app/model/bill';
-import {
-  Customer,
-  customerHeaderControls,
-  customerHeaders,
-} from 'src/app/model/customer';
-import { Order, orderHeaderControls, orderHeaders } from 'src/app/model/order';
-import {
-  Product,
-  productHeaderControls,
-  productHeaders,
-} from 'src/app/model/product';
+import { Observable } from 'rxjs';
+import { Bill, billHeaderControls } from 'src/app/model/bill';
+import { Customer, customerHeaderControls } from 'src/app/model/customer';
+import { BehaviorItemList } from 'src/app/model/item-list';
+import { Order, orderHeaderControls } from 'src/app/model/order';
+import { Product, productHeaderControls } from 'src/app/model/product';
 import { GeneralItemService } from 'src/app/services/general-item.service';
 import { RelayDataService } from 'src/app/services/relay-data.service';
 
@@ -29,11 +22,13 @@ export class DataEditorComponent implements OnInit {
   generalItemService: GeneralItemService = inject(GeneralItemService);
   router: Router = inject(Router);
   itemType: string = '';
-  headers: string[] = [];
   headerControls: any[] = [];
   editor: FormGroup = new FormGroup({});
+  action: string = '';
+  item!: Product | Customer | Order | Bill;
 
-  item: any = {};
+  allDataLists$: Observable<BehaviorItemList> =
+    this.generalItemService.listOfAll$;
 
   constructor(private toastr: ToastrService) {}
 
@@ -43,109 +38,137 @@ export class DataEditorComponent implements OnInit {
     switch (this.itemType) {
       case 'products':
         this.item = new Product();
-        this.headers = productHeaders;
         this.headerControls = productHeaderControls;
         break;
       case 'customers':
         this.item = new Customer();
-        this.headers = customerHeaders;
         this.headerControls = customerHeaderControls;
         break;
       case 'orders':
         this.item = new Order();
-        this.headers = orderHeaders;
         this.headerControls = orderHeaderControls;
         break;
       case 'bills':
         this.item = new Bill();
-        this.headers = billHeaders;
-        //this.headerControls = BillHeaderControls;
+        this.headerControls = billHeaderControls;
         break;
     }
+
     this.activatedRoute.params.subscribe((params) => {
       if (params['id'] !== '0') {
-        this.item = this.dataRelay.getSingleItem(
-          this.itemType,
-          params['id']
-        )[0];
+        this.action = 'editor';
+        this.allDataLists$.subscribe((list) =>
+          list[this.itemType].subscribe((items: any) => {
+            this.item = items.filter(
+              (item: any) => String(item.uniqueId) === String(params['id'])
+            )[0];
+          })
+        );
+      } else {
+        this.action = 'creator';
       }
-      this.generateInputs(this.item);
+
+      this.generateInputs();
     });
   }
 
-  generateInputs(item: any) {
-    this.headerControls.forEach(
-      (header) => (this.editor.controls[header.key] = new FormControl(''))
-    );
+  generateInputs() {
+    this.headerControls.forEach((header) => {
+      this.editor.controls[header.key] = new FormControl('');
+    });
   }
 
   onSubmit() {
     // create new item
     if (!this.item.uniqueId) {
       //calculating new id
-      const newId: number =
-        this.dataRelay.getItems(this.itemType).slice(-1)[0].id + 1;
+      let newId: number = 0;
+      this.allDataLists$.subscribe((list) =>
+        list[this.itemType].subscribe(
+          (data: any) => (newId = data.slice(-1)[0].id)
+        )
+      );
 
-      this.item.id = newId;
+      this.item.id = newId + 1;
 
-      switch (this.itemType) {
-        case 'customers':
-          this.getControlValuesOfSelectFields('add');
-          break;
-        case 'products':
-          this.getControlValuesOfSelectFields('cat');
-          break;
-      }
+      this.getControlValuesOfSelectFields();
 
       this.generalItemService
         .addItem(this.item, this.itemType)
-        .subscribe((item) => {
-          this.generalItemService
-            .fetchItems(this.itemType)
-            .subscribe((items) => {
-              this.dataRelay.setItems(items, this.itemType);
+        .subscribe((createdItem: any) => {
+          this.item.uniqueId = createdItem['name'];
+          this.allDataLists$.subscribe((list) => {
+            list[this.itemType].subscribe((data: any) => {
+              data.push(this.item);
               this.toastr.success(`Successfully created`, 'CREATE!', {
                 timeOut: 5000,
                 positionClass: 'toast-top-right',
               });
               this.router.navigate([`/list/${this.itemType}`]);
             });
+          });
         });
     }
     // editing item
     else {
-      switch (this.itemType) {
-        case 'customers':
-          this.getControlValuesOfSelectFields('add');
-          break;
-        case 'products':
-          this.getControlValuesOfSelectFields('cat');
-          break;
-      }
+      this.getControlValuesOfSelectFields();
 
       this.generalItemService
         .updateItem(this.item, this.itemType)
-        .subscribe((item) => {
-          this.generalItemService
-            .fetchItems(this.itemType)
-            .subscribe((items) => {
-              this.dataRelay.setItems(items, this.itemType);
+        .subscribe((editedItem: any) => {
+          this.allDataLists$.subscribe((list) => {
+            list[this.itemType].subscribe((data: any) => {
+              data.filter(
+                (item: any) => editedItem.uniqueId === item.uniqueId
+              )[0] = editedItem;
               this.toastr.info(`Successfully edited`, 'EDIT!', {
                 timeOut: 5000,
                 positionClass: 'toast-top-right',
               });
               this.router.navigate([`/list/${this.itemType}`]);
             });
+          });
         });
     }
   }
 
-  getControlValuesOfSelectFields(param: string) {
-    Object.keys(this.editor.controls).forEach((key) => {
-      if (key.includes(param)) {
-        this.item.address[key.slice(3).toLowerCase()] =
-          this.editor.controls[key].value;
-      }
-    });
+  getControlValuesOfSelectFields() {
+    if (this.itemType === 'products') {
+      this.item.category.name = this.editor.controls['catName'].value;
+      this.item.active =
+        this.editor.controls['active'].value === 'true' ? true : false;
+      this.item.featured =
+        this.editor.controls['featured'].value === 'true' ? true : false;
+      this.item.price = Number(this.editor.controls['price'].value);
+      this.setNonEditableCategoryData();
+    } else if (this.itemType === 'customers') {
+      Object.keys(this.editor.controls).forEach((key) => {
+        if (key.includes('add')) {
+          this.item.address[key.slice(3).toLowerCase()] =
+            this.editor.controls[key].value;
+        }
+      });
+      this.item.active =
+        this.editor.controls['active'].value === 'true' ? true : false;
+    } else if (this.itemType === 'orders') {
+      this.item.customerId = Number(this.editor.controls['customerId'].value);
+      this.item.productId = Number(this.editor.controls['productId'].value);
+      this.item.amount = Number(this.editor.controls['amount'].value);
+    } else if (this.itemType === 'bills') {
+      this.item.orderId = Number(this.editor.controls['orderId'].value);
+      this.item.amount = Number(this.editor.controls['amount'].value);
+    }
+  }
+
+  setNonEditableCategoryData() {
+    const categoryName = this.editor.controls['catName'].value;
+    const indexOfCategory =
+      this.headerControls[4].options.indexOf(categoryName);
+    let categoryId: string = '';
+    let categoryDescription: string = '';
+    categoryId = this.headerControls[3].options[indexOfCategory];
+    categoryDescription = this.headerControls[5].options[indexOfCategory];
+    this.item['category'].id = Number(categoryId);
+    this.item['category'].description = categoryDescription;
   }
 }
