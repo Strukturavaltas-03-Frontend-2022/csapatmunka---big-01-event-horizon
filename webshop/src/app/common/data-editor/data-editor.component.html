@@ -50,7 +50,7 @@
             [(ngModel)]="item[control.key]"
             [formControlName]="control.key"
             [name]="control.key"
-            [type]="control.type || 'text'"
+            type="checkbox"
             [hidden]="!control.visible"
             [checked]="item[control.key]"
           />

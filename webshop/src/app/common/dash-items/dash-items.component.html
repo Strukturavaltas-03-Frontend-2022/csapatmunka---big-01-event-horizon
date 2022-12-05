@@ -42,4 +42,31 @@
       ></apx-chart>
     </div>
   </div>
+  <div class="px-5">
+    <div *ngIf="top5ProductsChart" class="p-5" id="chart">
+      <apx-chart
+        [series]="top5ProductsChart.series"
+        [chart]="top5ProductsChart.chart"
+        [dataLabels]="top5ProductsChart.dataLabels"
+        [plotOptions]="top5ProductsChart.plotOptions"
+        [yaxis]="top5ProductsChart.yaxis"
+        [xaxis]="top5ProductsChart.xaxis"
+        [fill]="top5ProductsChart.fill"
+        [title]="top5ProductsChart.title"
+      ></apx-chart>
+    </div>
+
+    <div *ngIf="customerCityDistributionChart" class="p-5" id="chart">
+      <apx-chart
+        [series]="customerCityDistributionChart.series"
+        [chart]="customerCityDistributionChart.chart"
+        [dataLabels]="customerCityDistributionChart.dataLabels"
+        [plotOptions]="customerCityDistributionChart.plotOptions"
+        [yaxis]="customerCityDistributionChart.yaxis"
+        [xaxis]="customerCityDistributionChart.xaxis"
+        [fill]="customerCityDistributionChart.fill"
+        [title]="customerCityDistributionChart.title"
+      ></apx-chart>
+    </div>
+  </div>
 </div>
