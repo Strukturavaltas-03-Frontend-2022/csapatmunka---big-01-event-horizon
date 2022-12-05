@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { SpinnerComponent } from './util/spinner/spinner.component';
 import { FilterPipe } from './common/data-table/filter.pipe';
 import { SortPipe } from './common/data-table/sort.pipe';
 import { TickerComponent } from './util/ticker/ticker.component';
+import { DashItemsComponent } from './common/dash-items/dash-items.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { TickerComponent } from './util/ticker/ticker.component';
     FilterPipe,
     SortPipe,
     TickerComponent,
+    DashItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { TickerComponent } from './util/ticker/ticker.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    NgApexchartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -25,8 +25,8 @@ export class SidebarComponent implements OnInit {
   menuIcons: string[] = [
     'fa-archive',
     'fa-user',
-    'fa-file-text',
     'fa-credit-card-alt',
+    'fa-money',
   ];
 
   ngOnInit(): void {}
