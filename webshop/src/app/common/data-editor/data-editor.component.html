@@ -1,9 +1,13 @@
-<div class="row mx-0 pt-5">
-  <div style="width: 500px" class="p-5 rounded bg-dark text-white p-2">
-    <h2 class="text-center text-white">Data Editor</h2>
+<div class="row mx-0 pt-1">
+  <div style="width: 500px" class="p-5 rounded bg-dark text-white">
+    <h2 class="text-center text-white">Data {{ action }} for {{ itemType }}</h2>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="editor" class="overflow-auto">
-      <div *ngFor="let control of headerControls" class="form-group py-2">
+    <form (ngSubmit)="onSubmit()" [formGroup]="editor">
+      <div
+        *ngFor="let control of headerControls"
+        class="form-group pb-2"
+        [ngClass]="control.type === 'checkbox' ? 'd-flex flex-row' : ''"
+      >
         <label class="text-white" [hidden]="!control.visible">
           {{ control.label }}
         </label>
@@ -11,10 +15,10 @@
           <select
             class="form-control bg-light"
             [(ngModel)]="
-              control.key === 'catName'
-                ? item['category'].name
-                : control.key === 'catId'
+              control.key === 'catId'
                 ? item['category'].id
+                : control.key === 'catName'
+                ? item['category'].name
                 : control.key === 'catDescription'
                 ? item['category'].description
                 : control.key === 'addCountry'

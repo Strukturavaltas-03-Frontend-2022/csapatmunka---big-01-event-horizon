@@ -35,6 +35,7 @@ export class ListComponent implements OnInit {
       this.type = params['type'];
       this.dataRelay.setType(this.type);
       this.headers = this.headerList[this.type];
+
       this.allDataLists$.subscribe((list) => {
         list[this.type].subscribe((data: any) => {
           this.items = data;
@@ -70,6 +71,6 @@ export class ListComponent implements OnInit {
   }
 
   onAddNewItem(emit: boolean) {
-    this.router.navigate([`edit/0`]);
+    this.router.navigate([`create/0`]);
   }
 }

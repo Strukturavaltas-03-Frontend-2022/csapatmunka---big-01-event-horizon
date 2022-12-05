@@ -37,7 +37,7 @@ export class TickerComponent implements OnInit {
       this.data.orders = result.orders;
       this.data.bills = result.bills;
     }),
-    debounceTime(0)
+    debounceTime(500)
   );
 
   ngOnInit(): void {

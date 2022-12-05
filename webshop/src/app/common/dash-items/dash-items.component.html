@@ -1,6 +1,6 @@
 <div class="d-flex">
   <div class="charts">
-    <div class="p-5" id="chart">
+    <div *ngIf="billStatusChart" class="p-5" id="chart">
       <apx-chart
         [series]="billStatusChart?.series"
         [chart]="billStatusChart?.chart"
@@ -14,7 +14,7 @@
       ></apx-chart>
     </div>
 
-    <div class="p-5" id="chart">
+    <div *ngIf="orderStatusChart" class="p-5" id="chart">
       <apx-chart
         [series]="orderStatusChart?.series"
         [chart]="orderStatusChart?.chart"
@@ -28,7 +28,7 @@
       ></apx-chart>
     </div>
 
-    <div class="p-5" id="chart">
+    <div *ngIf="productDescriptionChart" class="p-5" id="chart">
       <apx-chart
         [series]="productDescriptionChart?.series"
         [chart]="productDescriptionChart?.chart"
