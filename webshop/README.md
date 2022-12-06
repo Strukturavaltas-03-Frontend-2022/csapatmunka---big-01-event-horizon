@@ -48,3 +48,10 @@
 |2022.12.05. - ver. 1.20
 
 - Additional bugfixes around CRUD functionalities, type checks and convert added to editor form
+- Added two additional column charts to dashboard
+- Reworked ticker component
+
+|2022.12.06. - ver. 1.25
+
+- Editor validation fully fixed up and running
+- Weather forecast widget added to dashboard

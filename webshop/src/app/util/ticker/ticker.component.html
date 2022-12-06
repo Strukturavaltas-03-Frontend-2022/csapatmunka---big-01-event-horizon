@@ -1,18 +1,31 @@
-<div class="ticker-wrap">
-  <div class="ticker">
-    <div class="ticker__item">All active customers: {{ activeCustomers }}</div>
-    <div class="ticker__item">Value of all cars: {{ valueOfAllCars }} CAD</div>
-    <div class="ticker__item">
-      Most popular car: {{ mostPopularCar.type }}
-      {{ mostPopularCar.name }}
-    </div>
-    <div class="ticker__item">
-      Most expensive car: {{ mostExpensiveCar.type }}
-      {{ mostExpensiveCar.name }} - {{ mostExpensiveCar.price }} CAD
-    </div>
-    <div class="ticker__item">
-      Most loyal customer: {{ mostLoyalCustomer.firstName }}
-      {{ mostLoyalCustomer.lastName }}
+<div class="ticker-container">
+  <div class="lead">Dealership NEWS</div>
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker__item">
+        All active customers: <b>{{ activeCustomers }}</b>
+      </div>
+      <div class="ticker__item">
+        Value of all cars: <b>{{ valueOfAllCars }}</b> CAD
+      </div>
+      <div class="ticker__item">
+        Most popular car:
+        <b>{{ mostPopularCar.type }} {{ mostPopularCar.name }}</b>
+      </div>
+      <div class="ticker__item">
+        Most expensive car:
+        <b
+          >{{ mostExpensiveCar.type }} {{ mostExpensiveCar.name }} -
+          {{ mostExpensiveCar.price }}</b
+        >
+        CAD
+      </div>
+      <div class="ticker__item">
+        Most loyal customer:
+        <b
+          >{{ mostLoyalCustomer.firstName }} {{ mostLoyalCustomer.lastName }}</b
+        >
+      </div>
     </div>
   </div>
 </div>

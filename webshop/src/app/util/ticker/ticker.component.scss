@@ -30,14 +30,12 @@ $duration: 25s;
 }
 
 .ticker-wrap {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
+  position: relative;
+
   width: 100%;
   overflow: hidden;
   height: 2rem;
-  background-color: rgba(rgb(0, 0, 0), 1);
+  background-color: #5a6371;
   padding-left: 100%;
   box-sizing: content-box;
 
@@ -66,4 +64,41 @@ $duration: 25s;
       color: white;
     }
   }
+}
+
+.ticker-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.lead {
+  display: block;
+  position: absolute;
+
+  font-size: 20px;
+  background: #328cec;
+  color: white;
+  text-transform: uppercase;
+  font-style: italic;
+  letter-spacing: 3px;
+  font-weight: 500;
+  z-index: 2;
+  height: 2.8rem;
+  margin-top: -10px;
+  padding-left: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lead::after {
+  content: "";
+  position: relative;
+  left: 48px;
+
+  z-index: 2;
+
+  border-top: 2.8rem solid #328cec;
+  border-right: 3rem solid transparent;
 }

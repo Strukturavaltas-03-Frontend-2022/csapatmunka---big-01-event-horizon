@@ -25,7 +25,7 @@
       <tr>
         <td *ngFor="let header of headers; let i = index">
           <input
-            class="w-75"
+            class="w-100 form-control bg-secondary text-white px-2"
             [(ngModel)]="phrases[i]"
             (keyup)="onPhraseChange(header, i)"
             type="text"
