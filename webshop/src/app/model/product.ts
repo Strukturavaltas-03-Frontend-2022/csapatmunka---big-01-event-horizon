@@ -1,3 +1,4 @@
+import { Validators } from '@angular/forms';
 import { Category } from './category';
 
 export class Product {
@@ -14,15 +15,30 @@ export class Product {
 }
 
 export const productHeaderControls = [
-  { key: 'id', label: '#', type: 'input', visible: false },
-  { key: 'name', label: 'Name', type: 'input', visible: true },
-  { key: 'type', label: 'Type', type: 'input', visible: true },
+  { key: 'id', label: '#', type: 'input', visible: false, valdators: [] },
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'input',
+    visible: true,
+    validators: [Validators.required],
+    error: 'Must be set!',
+  },
+  {
+    key: 'type',
+    label: 'Type',
+    type: 'input',
+    visible: true,
+    validators: [Validators.required],
+    error: 'Must be set!',
+  },
   {
     key: 'catId',
     label: 'Category#',
     type: 'select',
     options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
     visible: false,
+    validators: [],
   },
   {
     key: 'catName',
@@ -41,6 +57,8 @@ export const productHeaderControls = [
     ],
     type: 'select',
     visible: true,
+    validators: [Validators.required],
+    error: 'Must be set!',
   },
   {
     key: 'catDescription',
@@ -59,6 +77,7 @@ export const productHeaderControls = [
       'American-made two-door sports coupes with powerful engines designed for high-performance driving',
     ],
     visible: false,
+    validators: [],
   },
   {
     key: 'description',
@@ -66,13 +85,29 @@ export const productHeaderControls = [
     options: ['Used', 'Test', 'New'],
     type: 'select',
     visible: true,
+    validators: [Validators.required],
+    error: 'Must be set!',
   },
-  { key: 'price', label: 'Price', type: 'input', visible: true },
+  {
+    key: 'price',
+    label: 'Price',
+    type: 'input',
+    visible: true,
+    validators: [Validators.pattern(/^\d{5,}$/), Validators.required],
+    error: 'Must be at least 10000 CAD!',
+  },
   {
     key: 'featured',
     label: 'Featured',
     type: 'checkbox',
     visible: true,
+    validators: [],
   },
-  { key: 'active', label: 'Active', type: 'checkbox', visible: true },
+  {
+    key: 'active',
+    label: 'Active',
+    type: 'checkbox',
+    visible: true,
+    validators: [],
+  },
 ];
