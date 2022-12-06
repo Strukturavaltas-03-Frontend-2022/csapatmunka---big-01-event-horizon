@@ -1,5 +1,5 @@
-<div class="d-flex">
-  <div class="charts">
+<div class="d-flex w-100 justify-content-around">
+  <div class="charts ps-5">
     <div *ngIf="billStatusChart" class="p-5" id="chart">
       <apx-chart
         [series]="billStatusChart?.series"
@@ -43,16 +43,16 @@
     </div>
   </div>
   <div class="px-5">
-    <div *ngIf="top5ProductsChart" class="p-5" id="chart">
+    <div *ngIf="carTypeDistributionChart" class="p-5" id="chart">
       <apx-chart
-        [series]="top5ProductsChart.series"
-        [chart]="top5ProductsChart.chart"
-        [dataLabels]="top5ProductsChart.dataLabels"
-        [plotOptions]="top5ProductsChart.plotOptions"
-        [yaxis]="top5ProductsChart.yaxis"
-        [xaxis]="top5ProductsChart.xaxis"
-        [fill]="top5ProductsChart.fill"
-        [title]="top5ProductsChart.title"
+        [series]="carTypeDistributionChart.series"
+        [chart]="carTypeDistributionChart.chart"
+        [dataLabels]="carTypeDistributionChart.dataLabels"
+        [plotOptions]="carTypeDistributionChart.plotOptions"
+        [yaxis]="carTypeDistributionChart.yaxis"
+        [xaxis]="carTypeDistributionChart.xaxis"
+        [fill]="carTypeDistributionChart.fill"
+        [title]="carTypeDistributionChart.title"
       ></apx-chart>
     </div>
 
@@ -68,5 +68,10 @@
         [title]="customerCityDistributionChart.title"
       ></apx-chart>
     </div>
+  </div>
+  <div
+    class="forecast d-flex justify-content-center align-items-center mx-auto"
+  >
+    <div class="elfsight-app-55a5bb42-7b3b-4e1f-aa6f-f00dda7b0f1e"></div>
   </div>
 </div>

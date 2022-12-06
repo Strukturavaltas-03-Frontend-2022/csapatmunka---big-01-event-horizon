@@ -39,7 +39,7 @@ export class DashItemsComponent implements OnInit {
   billStatusChart: any;
   orderStatusChart: any;
   productDescriptionChart: any;
-  top5ProductsChart: any;
+  carTypeDistributionChart: any;
   customerCityDistributionChart: any;
   top5CityByPurchaseCount: any;
 
@@ -50,6 +50,7 @@ export class DashItemsComponent implements OnInit {
   customers: Customer[] = [];
 
   allCities: string[] = [];
+  allCarTypes: string[] = [];
 
   newBills: number = 0;
   paidBills: number = 0;
@@ -63,16 +64,13 @@ export class DashItemsComponent implements OnInit {
   testCars: number = 0;
 
   top5MostPopularCarMake: Product[] = [];
-  ordersByCar: number[] = Array(1000).fill(0);
-  allCars: Array<iCar> = Array(1000).fill({ id: 0, orderAmount: 0 });
+
   top10CityNames: any[] = [];
   top10CityDistribution: any[] = [];
   top5CityNamesByPurchases: any[] = [];
 
-  allCustomerCity: Array<{ name: string; amount: number }> = Array(1000).fill({
-    id: 0,
-    orderAmount: 0,
-  });
+  carTypeNameList: any[] = [];
+  carTypeCountList: any[] = [];
 
   combinedList = combineLatest({
     products: this.generalItemService.products$,
@@ -86,7 +84,7 @@ export class DashItemsComponent implements OnInit {
       this.allItems.orders = result.orders;
       this.allItems.bills = result.bills;
     }),
-    debounceTime(500)
+    debounceTime(300)
   );
 
   ngOnInit() {
@@ -101,7 +99,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#6c9dda', '#99516b'],
       labels: ['New', 'Paid'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -136,7 +134,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#d2b48c', '#d8bfd8', '#ffc0cb'],
       labels: ['New', 'Paid', 'Shipped'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -171,7 +169,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#33ab5f', '#8cbda9', '#d5f591'],
       labels: ['New', 'Used', 'Test'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -201,7 +199,7 @@ export class DashItemsComponent implements OnInit {
       },
     };
 
-    this.top5ProductsChart = {
+    this.carTypeDistributionChart = {
       series: [
         {
           name: '',
@@ -545,13 +543,37 @@ export class DashItemsComponent implements OnInit {
       this.usedCars,
     ];
 
+    // calc car type distribution for dealership
+    this.allItems.products.forEach((product) => {
+      this.allCarTypes.push(product.category.name);
+    });
+
+    const allCarCount: number = this.allItems.products.length;
+
+    const productMap = this.allCarTypes.reduce(
+      (acc, cur) => acc.set(cur, (acc.get(cur) || 0) + 1),
+      new Map()
+    );
+
+    Array.from(productMap)
+      .sort((a: any, b: any) => b[1] - a[1])
+      .forEach((product) => {
+        this.carTypeNameList.push(product[0]);
+        this.carTypeCountList.push(
+          ((product[1] / allCarCount) * 100).toFixed(2)
+        );
+      });
+
+    this.carTypeDistributionChart.xaxis.categories = this.carTypeNameList;
+    this.carTypeDistributionChart.series[0].data = this.carTypeCountList;
+
     // calc customer cities
     this.allItems.customers.forEach((customer) => {
       this.allCities.push(customer.address.city);
     });
 
     const cityMap = this.allCities.reduce(
-      (a, c) => a.set(c, (a.get(c) || 0) + 1),
+      (acc, cur) => acc.set(cur, (acc.get(cur) || 0) + 1),
       new Map()
     );
 
