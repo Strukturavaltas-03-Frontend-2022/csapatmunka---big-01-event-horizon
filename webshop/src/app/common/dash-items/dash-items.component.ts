@@ -1,14 +1,6 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-  PLATFORM_INITIALIZER,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BehaviorItemList, ItemList } from 'src/app/model/item-list';
 import { RelayDataService } from 'src/app/services/relay-data.service';
-import { ChartComponent } from 'ng-apexcharts';
 
 import { Product } from 'src/app/model/product';
 import { Order } from 'src/app/model/order';
@@ -34,12 +26,10 @@ export class DashItemsComponent implements OnInit {
   allDataLists$: Observable<BehaviorItemList> =
     this.generalItemService.listOfAll$;
 
-  @ViewChild('chart') chart!: ChartComponent;
-
   billStatusChart: any;
   orderStatusChart: any;
   productDescriptionChart: any;
-  top5ProductsChart: any;
+  carTypeDistributionChart: any;
   customerCityDistributionChart: any;
   top5CityByPurchaseCount: any;
 
@@ -50,6 +40,7 @@ export class DashItemsComponent implements OnInit {
   customers: Customer[] = [];
 
   allCities: string[] = [];
+  allCarTypes: string[] = [];
 
   newBills: number = 0;
   paidBills: number = 0;
@@ -63,16 +54,13 @@ export class DashItemsComponent implements OnInit {
   testCars: number = 0;
 
   top5MostPopularCarMake: Product[] = [];
-  ordersByCar: number[] = Array(1000).fill(0);
-  allCars: Array<iCar> = Array(1000).fill({ id: 0, orderAmount: 0 });
+
   top10CityNames: any[] = [];
   top10CityDistribution: any[] = [];
   top5CityNamesByPurchases: any[] = [];
 
-  allCustomerCity: Array<{ name: string; amount: number }> = Array(1000).fill({
-    id: 0,
-    orderAmount: 0,
-  });
+  carTypeNameList: any[] = [];
+  carTypeCountList: any[] = [];
 
   combinedList = combineLatest({
     products: this.generalItemService.products$,
@@ -86,7 +74,7 @@ export class DashItemsComponent implements OnInit {
       this.allItems.orders = result.orders;
       this.allItems.bills = result.bills;
     }),
-    debounceTime(500)
+    debounceTime(300)
   );
 
   ngOnInit() {
@@ -101,7 +89,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#6c9dda', '#99516b'],
       labels: ['New', 'Paid'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -136,7 +124,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#d2b48c', '#d8bfd8', '#ffc0cb'],
       labels: ['New', 'Paid', 'Shipped'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -171,7 +159,7 @@ export class DashItemsComponent implements OnInit {
       colors: ['#33ab5f', '#8cbda9', '#d5f591'],
       labels: ['New', 'Used', 'Test'],
       chart: {
-        width: 250,
+        width: 275,
         type: 'pie',
       },
       legend: {
@@ -201,7 +189,7 @@ export class DashItemsComponent implements OnInit {
       },
     };
 
-    this.top5ProductsChart = {
+    this.carTypeDistributionChart = {
       series: [
         {
           name: '',
@@ -311,6 +299,18 @@ export class DashItemsComponent implements OnInit {
           color: '#444',
         },
       },
+      responsive: [
+        {
+          breakpoint: 1000,
+          options: {
+            chart: {
+              height: 350,
+              width: 450,
+              type: 'bar',
+            },
+          },
+        },
+      ],
     };
 
     this.customerCityDistributionChart = {
@@ -412,107 +412,18 @@ export class DashItemsComponent implements OnInit {
           color: '#444',
         },
       },
-    };
-
-    this.top5CityByPurchaseCount = {
-      series: [
+      responsive: [
         {
-          name: '',
-          data: [2.3, 3.1, 4.0, 10.1, 2.3],
-        },
-      ],
-      chart: {
-        height: 350,
-        width: 800,
-        type: 'bar',
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            position: 'top', // top, center, bottom
-          },
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: function (val: number) {
-          return val;
-        },
-        offsetY: -20,
-        style: {
-          fontSize: '12px',
-          colors: ['#304758'],
-        },
-      },
-
-      xaxis: {
-        categories: this.top5CityNamesByPurchases,
-        position: 'bottom',
-        labels: {
-          offsetY: -6,
-          rotate: -70,
-        },
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-        crosshairs: {
-          fill: {
-            type: 'gradient',
-            gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5,
+          breakpoint: 1000,
+          options: {
+            chart: {
+              height: 350,
+              width: 450,
+              type: 'bar',
             },
           },
         },
-        tooltip: {
-          enabled: false,
-          offsetY: -35,
-        },
-      },
-      fill: {
-        type: 'gradient',
-        colors: ['#165baa'],
-        gradient: {
-          shade: 'dark',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 50, 100],
-          colorStops: [],
-        },
-      },
-      yaxis: {
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-        labels: {
-          show: false,
-          formatter: function (val: number) {
-            return val;
-          },
-        },
-      },
-      title: {
-        text: 'Top 5 city by purchase count',
-        floating: 0,
-        offsetY: 0,
-        align: 'center',
-        style: {
-          color: '#444',
-        },
-      },
+      ],
     };
 
     this.allItems.bills.forEach((bill) => {
@@ -545,13 +456,37 @@ export class DashItemsComponent implements OnInit {
       this.usedCars,
     ];
 
+    // calc car type distribution for dealership
+    this.allItems.products.forEach((product) => {
+      this.allCarTypes.push(product.category.name);
+    });
+
+    const allCarCount: number = this.allItems.products.length;
+
+    const productMap = this.allCarTypes.reduce(
+      (acc, cur) => acc.set(cur, (acc.get(cur) || 0) + 1),
+      new Map()
+    );
+
+    Array.from(productMap)
+      .sort((a: any, b: any) => b[1] - a[1])
+      .forEach((product) => {
+        this.carTypeNameList.push(product[0]);
+        this.carTypeCountList.push(
+          ((product[1] / allCarCount) * 100).toFixed(2)
+        );
+      });
+
+    this.carTypeDistributionChart.xaxis.categories = this.carTypeNameList;
+    this.carTypeDistributionChart.series[0].data = this.carTypeCountList;
+
     // calc customer cities
     this.allItems.customers.forEach((customer) => {
       this.allCities.push(customer.address.city);
     });
 
     const cityMap = this.allCities.reduce(
-      (a, c) => a.set(c, (a.get(c) || 0) + 1),
+      (acc, cur) => acc.set(cur, (acc.get(cur) || 0) + 1),
       new Map()
     );
 

@@ -59,22 +59,26 @@ export class DataEditorComponent implements OnInit {
         this.action = 'editor';
         this.allDataLists$.subscribe((list) =>
           list[this.itemType].subscribe((items: any) => {
-            this.item = items.filter(
-              (item: any) => String(item.uniqueId) === String(params['id'])
-            )[0];
+            this.item = {
+              ...items.filter(
+                (item: any) => String(item.uniqueId) === String(params['id'])
+              )[0],
+            };
           })
         );
       } else {
         this.action = 'creator';
       }
-
-      this.generateInputs();
+      this.generateInputControls(this.item);
     });
   }
 
-  generateInputs() {
+  generateInputControls(item: Product | Customer | Order | Bill): void {
     this.headerControls.forEach((header) => {
-      this.editor.controls[header.key] = new FormControl('');
+      if (header.visible === true) {
+        const control = new FormControl(item[header.key], header.validators);
+        this.editor.addControl(header.key, control);
+      }
     });
   }
 
@@ -118,9 +122,11 @@ export class DataEditorComponent implements OnInit {
         .subscribe((editedItem: any) => {
           this.allDataLists$.subscribe((list) => {
             list[this.itemType].subscribe((data: any) => {
-              data.filter(
+              const index = data.findIndex(
                 (item: any) => editedItem.uniqueId === item.uniqueId
-              )[0] = editedItem;
+              );
+              data = data.splice(index, 1, this.item);
+
               this.toastr.info(`Successfully edited`, 'EDIT!', {
                 timeOut: 5000,
                 positionClass: 'toast-top-right',

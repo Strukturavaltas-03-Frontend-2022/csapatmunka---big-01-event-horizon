@@ -1,6 +1,6 @@
-<div class="d-flex">
-  <div class="charts">
-    <div *ngIf="billStatusChart" class="p-5" id="chart">
+<div class="dashboard-container d-flex w-100 justify-content-around">
+  <div class="piecharts ps-5">
+    <div *ngIf="billStatusChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="billStatusChart?.series"
         [chart]="billStatusChart?.chart"
@@ -14,7 +14,7 @@
       ></apx-chart>
     </div>
 
-    <div *ngIf="orderStatusChart" class="p-5" id="chart">
+    <div *ngIf="orderStatusChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="orderStatusChart?.series"
         [chart]="orderStatusChart?.chart"
@@ -28,7 +28,7 @@
       ></apx-chart>
     </div>
 
-    <div *ngIf="productDescriptionChart" class="p-5" id="chart">
+    <div *ngIf="productDescriptionChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="productDescriptionChart?.series"
         [chart]="productDescriptionChart?.chart"
@@ -42,21 +42,25 @@
       ></apx-chart>
     </div>
   </div>
-  <div class="px-5">
-    <div *ngIf="top5ProductsChart" class="p-5" id="chart">
+  <div class="columncharts px-5">
+    <div *ngIf="carTypeDistributionChart" class="colchart p-5" id="colchart">
       <apx-chart
-        [series]="top5ProductsChart.series"
-        [chart]="top5ProductsChart.chart"
-        [dataLabels]="top5ProductsChart.dataLabels"
-        [plotOptions]="top5ProductsChart.plotOptions"
-        [yaxis]="top5ProductsChart.yaxis"
-        [xaxis]="top5ProductsChart.xaxis"
-        [fill]="top5ProductsChart.fill"
-        [title]="top5ProductsChart.title"
+        [series]="carTypeDistributionChart.series"
+        [chart]="carTypeDistributionChart.chart"
+        [dataLabels]="carTypeDistributionChart.dataLabels"
+        [plotOptions]="carTypeDistributionChart.plotOptions"
+        [yaxis]="carTypeDistributionChart.yaxis"
+        [xaxis]="carTypeDistributionChart.xaxis"
+        [fill]="carTypeDistributionChart.fill"
+        [title]="carTypeDistributionChart.title"
       ></apx-chart>
     </div>
 
-    <div *ngIf="customerCityDistributionChart" class="p-5" id="chart">
+    <div
+      *ngIf="customerCityDistributionChart"
+      class="colchart p-5"
+      id="colchart"
+    >
       <apx-chart
         [series]="customerCityDistributionChart.series"
         [chart]="customerCityDistributionChart.chart"
@@ -68,5 +72,10 @@
         [title]="customerCityDistributionChart.title"
       ></apx-chart>
     </div>
+  </div>
+  <div
+    class="forecast d-flex justify-content-center align-items-center mx-auto"
+  >
+    <div class="elfsight-app-55a5bb42-7b3b-4e1f-aa6f-f00dda7b0f1e"></div>
   </div>
 </div>

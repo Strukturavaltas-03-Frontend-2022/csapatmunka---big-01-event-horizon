@@ -1,8 +1,11 @@
-<div class="row mx-0 pt-1">
-  <div style="width: 500px" class="p-5 rounded bg-dark text-white">
+<div class="data-editor-container row mx-0 pt-1">
+  <div
+    style="width: 500px; max-height: 860px; overflow-y: scroll"
+    class="p-5 rounded bg-dark text-white"
+  >
     <h2 class="text-center text-white">Data {{ action }} for {{ itemType }}</h2>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="editor">
+    <form *ngIf="item" (ngSubmit)="onSubmit()" [formGroup]="editor">
       <div
         *ngFor="let control of headerControls"
         class="form-group pb-2"
@@ -11,7 +14,10 @@
         <label class="text-white" [hidden]="!control.visible">
           {{ control.label }}
         </label>
-        <ng-container [ngSwitch]="control.type">
+        <ng-container
+          *ngIf="control.visible === true"
+          [ngSwitch]="control.type"
+        >
           <select
             class="form-control bg-light"
             [(ngModel)]="
@@ -72,13 +78,23 @@
             [hidden]="!control.visible"
           />
         </ng-container>
+
+        <small
+          *ngIf="
+            editor.controls[control.key]?.invalid &&
+            editor.controls[control.key]?.touched
+          "
+          style="color: red"
+        >
+          {{ control.error }}
+        </small>
       </div>
 
       <button
-        [disabled]="editor.invalid"
+        [disabled]="!editor.valid"
         type="submit"
         class="btn btn-block my-2 w-100"
-        [ngClass]="editor.valid ? 'btn-success' : 'btn-error'"
+        [ngClass]="editor.valid ? 'btn-success' : 'btn-danger text-white'"
       >
         Save
       </button>
