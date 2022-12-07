@@ -59,3 +59,10 @@
 
 - Editor validation fully fixed up and running
 - Weather forecast widget added to dashboard
+
+|2022.12.07. - ver. 1.30
+
+- Minor tweaks to input validation regexps
+- Reworked sidebar / top navigation
+- Implemented full responsivity
+
