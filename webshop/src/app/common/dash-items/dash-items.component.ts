@@ -1,14 +1,6 @@
-import {
-  Component,
-  inject,
-  Input,
-  OnInit,
-  PLATFORM_INITIALIZER,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { BehaviorItemList, ItemList } from 'src/app/model/item-list';
 import { RelayDataService } from 'src/app/services/relay-data.service';
-import { ChartComponent } from 'ng-apexcharts';
 
 import { Product } from 'src/app/model/product';
 import { Order } from 'src/app/model/order';
@@ -33,8 +25,6 @@ export class DashItemsComponent implements OnInit {
 
   allDataLists$: Observable<BehaviorItemList> =
     this.generalItemService.listOfAll$;
-
-  @ViewChild('chart') chart!: ChartComponent;
 
   billStatusChart: any;
   orderStatusChart: any;
@@ -309,6 +299,18 @@ export class DashItemsComponent implements OnInit {
           color: '#444',
         },
       },
+      responsive: [
+        {
+          breakpoint: 1000,
+          options: {
+            chart: {
+              height: 350,
+              width: 450,
+              type: 'bar',
+            },
+          },
+        },
+      ],
     };
 
     this.customerCityDistributionChart = {
@@ -410,107 +412,18 @@ export class DashItemsComponent implements OnInit {
           color: '#444',
         },
       },
-    };
-
-    this.top5CityByPurchaseCount = {
-      series: [
+      responsive: [
         {
-          name: '',
-          data: [2.3, 3.1, 4.0, 10.1, 2.3],
-        },
-      ],
-      chart: {
-        height: 350,
-        width: 800,
-        type: 'bar',
-      },
-      plotOptions: {
-        bar: {
-          dataLabels: {
-            position: 'top', // top, center, bottom
-          },
-        },
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: function (val: number) {
-          return val;
-        },
-        offsetY: -20,
-        style: {
-          fontSize: '12px',
-          colors: ['#304758'],
-        },
-      },
-
-      xaxis: {
-        categories: this.top5CityNamesByPurchases,
-        position: 'bottom',
-        labels: {
-          offsetY: -6,
-          rotate: -70,
-        },
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-        crosshairs: {
-          fill: {
-            type: 'gradient',
-            gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5,
+          breakpoint: 1000,
+          options: {
+            chart: {
+              height: 350,
+              width: 450,
+              type: 'bar',
             },
           },
         },
-        tooltip: {
-          enabled: false,
-          offsetY: -35,
-        },
-      },
-      fill: {
-        type: 'gradient',
-        colors: ['#165baa'],
-        gradient: {
-          shade: 'dark',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 50, 100],
-          colorStops: [],
-        },
-      },
-      yaxis: {
-        axisBorder: {
-          show: false,
-        },
-        axisTicks: {
-          show: false,
-        },
-        labels: {
-          show: false,
-          formatter: function (val: number) {
-            return val;
-          },
-        },
-      },
-      title: {
-        text: 'Top 5 city by purchase count',
-        floating: 0,
-        offsetY: 0,
-        align: 'center',
-        style: {
-          color: '#444',
-        },
-      },
+      ],
     };
 
     this.allItems.bills.forEach((bill) => {

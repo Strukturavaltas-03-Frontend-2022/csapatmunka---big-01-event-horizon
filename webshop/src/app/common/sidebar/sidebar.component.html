@@ -1,5 +1,5 @@
 <aside
-  class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark ps bg-white"
+  class="navigation navbar sidenav navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark ps bg-white"
   id="sidenav-main"
   style="z-index: 0"
 >
@@ -27,54 +27,24 @@
     id="sidenav-collapse-main"
   >
     <ul class="navbar-nav">
-      <li class="nav-item">
+      <li
+        *ngFor="let item of menuItems"
+        class="nav-item"
+        (click)="setType(item.text)"
+      >
         <a
-          class="nav-link text-white bg-gradient-secondary"
-          [routerLink]="['/']"
-          [ngClass]="clickedHome === true ? 'active bg-gradient-info' : ''"
-          (click)="onHomeClicked()"
-        >
-          <div
-            class="text-white text-center me-2 d-flex align-items-center justify-content-center"
-          >
-            <i class="fa fa-dashboard"></i>
-          </div>
-          <span class="nav-link-text ms-1">Dashboard</span>
-        </a>
-      </li>
-
-      <li *ngFor="let item of menuItems; let i = index" class="nav-item">
-        <a
-          (click)="onClickMenuItem($event, i)"
-          [ngClass]="clicked[i] === true ? 'active bg-gradient-info' : ''"
           class="nav-link text-white bg-gradient-secondary cursor-pointer"
+          [routerLink]="item.link"
+          [routerLinkActive]="'active bg-gradient-info'"
         >
           <div
             class="text-white text-center me-2 d-flex align-items-center justify-content-center"
           >
-            <i class="fa" [ngClass]="menuIcons[i]"></i>
+            <i class="fa" [ngClass]="item.icon"></i>
           </div>
-          <span class="nav-link-text ms-1">{{ item }}</span>
+          <span class="nav-link-text ms-1">{{ item.text }}</span>
         </a>
       </li>
     </ul>
-
-    <div class="ps__rail-x" style="left: 0px; bottom: 0px">
-      <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px"></div>
-    </div>
-    <div class="ps__rail-y" style="top: 0px; height: 424px; right: 0px">
-      <div
-        class="ps__thumb-y"
-        tabindex="0"
-        style="top: 0px; height: 366px"
-      ></div>
-    </div>
-  </div>
-
-  <div class="ps__rail-x" style="left: 0px; bottom: 0px">
-    <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px"></div>
-  </div>
-  <div class="ps__rail-y" style="top: 0px; right: 0px">
-    <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px"></div>
   </div>
 </aside>
