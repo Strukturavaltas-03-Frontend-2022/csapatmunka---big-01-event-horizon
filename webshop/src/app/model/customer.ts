@@ -69,7 +69,7 @@ export const customerHeaderControls = [
     type: 'input',
     visible: true,
     validators: [
-      Validators.pattern(/^\d{1,5}\s\W+\s\W+$/),
+      Validators.pattern(/^\d{1,5}\s\w+[\s\w+]*$/),
       Validators.required,
     ],
     error: 'Must have valid canadian address format!',

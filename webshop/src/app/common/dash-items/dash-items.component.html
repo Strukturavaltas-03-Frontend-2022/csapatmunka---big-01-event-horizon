@@ -1,6 +1,6 @@
-<div class="d-flex w-100 justify-content-around">
-  <div class="charts ps-5">
-    <div *ngIf="billStatusChart" class="p-5" id="chart">
+<div class="dashboard-container d-flex w-100 justify-content-around">
+  <div class="piecharts ps-5">
+    <div *ngIf="billStatusChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="billStatusChart?.series"
         [chart]="billStatusChart?.chart"
@@ -14,7 +14,7 @@
       ></apx-chart>
     </div>
 
-    <div *ngIf="orderStatusChart" class="p-5" id="chart">
+    <div *ngIf="orderStatusChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="orderStatusChart?.series"
         [chart]="orderStatusChart?.chart"
@@ -28,7 +28,7 @@
       ></apx-chart>
     </div>
 
-    <div *ngIf="productDescriptionChart" class="p-5" id="chart">
+    <div *ngIf="productDescriptionChart" class="pie p-5" id="chart">
       <apx-chart
         [series]="productDescriptionChart?.series"
         [chart]="productDescriptionChart?.chart"
@@ -42,8 +42,8 @@
       ></apx-chart>
     </div>
   </div>
-  <div class="px-5">
-    <div *ngIf="carTypeDistributionChart" class="p-5" id="chart">
+  <div class="columncharts px-5">
+    <div *ngIf="carTypeDistributionChart" class="colchart p-5" id="colchart">
       <apx-chart
         [series]="carTypeDistributionChart.series"
         [chart]="carTypeDistributionChart.chart"
@@ -56,7 +56,11 @@
       ></apx-chart>
     </div>
 
-    <div *ngIf="customerCityDistributionChart" class="p-5" id="chart">
+    <div
+      *ngIf="customerCityDistributionChart"
+      class="colchart p-5"
+      id="colchart"
+    >
       <apx-chart
         [series]="customerCityDistributionChart.series"
         [chart]="customerCityDistributionChart.chart"
