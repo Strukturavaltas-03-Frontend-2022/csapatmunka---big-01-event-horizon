@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -20,13 +19,15 @@ $webshop-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$webshop-theme: mat.define-light-theme((
-  color: (
-    primary: $webshop-primary,
-    accent: $webshop-accent,
-    warn: $webshop-warn,
+$webshop-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $webshop-primary,
+      accent: $webshop-accent,
+      warn: $webshop-warn,
+    ),
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -35,5 +36,36 @@ $webshop-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@media only screen and (max-width: 2000px) {
+  .ps {
+    overflow-y: scroll !important;
+    scroll-behavior: smooth;
+  }
+
+  #sidenav-main {
+    overflow: hidden !important;
+  }
+
+  #sidenav-collapse-main {
+    overflow: hidden !important;
+  }
+
+  /*html::-webkit-scrollbar {
+    display: none !important;
+  }*/
+}
+
+@media only screen and (max-width: 1200px) {
+  aside {
+    transform: translateX(-17.125rem) !important;
+  }
+}

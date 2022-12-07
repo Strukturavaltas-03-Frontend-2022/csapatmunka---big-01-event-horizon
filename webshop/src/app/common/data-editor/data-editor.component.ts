@@ -70,8 +70,6 @@ export class DataEditorComponent implements OnInit {
         this.action = 'creator';
       }
       this.generateInputControls(this.item);
-      console.log(this.editor.controls);
-      //this.generateInputs();
     });
   }
 
