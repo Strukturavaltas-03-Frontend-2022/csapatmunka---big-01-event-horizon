@@ -1,4 +1,7 @@
-<div class="dashboard-container d-flex w-100 justify-content-around">
+<div
+  (window:resize)="onResize($event)"
+  class="dashboard-container w-100 d-flex justify-content-around"
+>
   <div class="piecharts ps-5">
     <div *ngIf="billStatusChart" class="pie p-5" id="chart">
       <apx-chart
@@ -53,6 +56,7 @@
         [xaxis]="carTypeDistributionChart.xaxis"
         [fill]="carTypeDistributionChart.fill"
         [title]="carTypeDistributionChart.title"
+        [responsive]="carTypeDistributionChart.responsive"
       ></apx-chart>
     </div>
 
@@ -70,6 +74,7 @@
         [xaxis]="customerCityDistributionChart.xaxis"
         [fill]="customerCityDistributionChart.fill"
         [title]="customerCityDistributionChart.title"
+        [responsive]="customerCityDistributionChart.responsive"
       ></apx-chart>
     </div>
   </div>

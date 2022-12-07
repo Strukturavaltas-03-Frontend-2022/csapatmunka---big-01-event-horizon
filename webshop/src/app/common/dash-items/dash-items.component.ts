@@ -9,10 +9,20 @@ import { Customer } from 'src/app/model/customer';
 import { GeneralItemService } from 'src/app/services/general-item.service';
 import { combineLatest, debounceTime, map, Observable } from 'rxjs';
 
+import { ApexResponsive } from 'ng-apexcharts';
+
 export interface iCar {
   id: number;
   orderAmount: number;
 }
+
+export type ChartOptions = {
+  series: any;
+  chart: any;
+  dataLabels: any;
+  plotOptions: any;
+  responsive: ApexResponsive[];
+};
 
 @Component({
   selector: 'app-dash-items',
@@ -304,9 +314,7 @@ export class DashItemsComponent implements OnInit {
           breakpoint: 1000,
           options: {
             chart: {
-              height: 350,
-              width: 450,
-              type: 'bar',
+              width: 500,
             },
           },
         },
@@ -324,6 +332,8 @@ export class DashItemsComponent implements OnInit {
         height: 350,
         width: 800,
         type: 'bar',
+        redrawOnWindowResize: true,
+        redrawOnParentResize: true,
       },
       plotOptions: {
         bar: {
@@ -417,9 +427,7 @@ export class DashItemsComponent implements OnInit {
           breakpoint: 1000,
           options: {
             chart: {
-              height: 350,
-              width: 450,
-              type: 'bar',
+              width: 500,
             },
           },
         },
@@ -502,5 +510,11 @@ export class DashItemsComponent implements OnInit {
     this.customerCityDistributionChart.xaxis.categories = this.top10CityNames;
     this.customerCityDistributionChart.series[0].data =
       this.top10CityDistribution;
+  }
+
+  onResize(event: any) {
+    if (event.target.innerWidth < 1000) {
+      this.customerCityDistributionChart.chart.width = 400;
+    }
   }
 }
