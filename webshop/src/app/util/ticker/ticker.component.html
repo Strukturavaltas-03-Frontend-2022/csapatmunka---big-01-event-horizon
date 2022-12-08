@@ -3,7 +3,16 @@
   <div class="ticker-wrap">
     <div class="ticker">
       <div class="ticker__item">
-        All active customers: <b>{{ activeCustomers }}</b>
+        All active customers: <b>{{ activeCustomers }}</b> (of total:
+        {{ allCustomers }})
+      </div>
+      <div class="ticker__item">
+        All active products: <b>{{ activeProducts }}</b> (of total:
+        {{ allProducts }})
+      </div>
+      <div class="ticker__item">
+        All shipped orders: <b>{{ shippedOrders }}</b> (of total:
+        {{ allOrders }})
       </div>
       <div class="ticker__item">
         Value of all cars: <b>{{ valueOfAllCars }}</b> CAD

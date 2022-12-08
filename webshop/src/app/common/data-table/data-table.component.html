@@ -73,6 +73,13 @@
               <div *ngSwitchCase="'addNotes'">
                 {{ item["address"].notes }}
               </div>
+              <div *ngSwitchCase="'price'">
+                {{ item.price | currency }}
+              </div>
+              <div *ngSwitchCase="'amount'">
+                {{ item.amount | currency }}
+              </div>
+
               <div *ngSwitchDefault>{{ item[header] }}</div>
             </ng-container>
           </td>
