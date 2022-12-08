@@ -511,10 +511,4 @@ export class DashItemsComponent implements OnInit {
     this.customerCityDistributionChart.series[0].data =
       this.top10CityDistribution;
   }
-
-  onResize(event: any) {
-    if (event.target.innerWidth < 1000) {
-      this.customerCityDistributionChart.chart.width = 400;
-    }
-  }
 }

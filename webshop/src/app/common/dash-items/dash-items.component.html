@@ -1,7 +1,10 @@
-<div
-  (window:resize)="onResize($event)"
-  class="dashboard-container w-100 d-flex justify-content-around"
->
+<div class="dashboard-container w-100 d-flex justify-content-around">
+  <div
+    *ngIf="!billStatusChart && !orderStatusChart && !productDescriptionChart"
+  >
+    <app-spinner [width]="'50'"></app-spinner>
+  </div>
+
   <div class="piecharts ps-5">
     <div *ngIf="billStatusChart" class="pie p-5" id="chart">
       <apx-chart
@@ -78,6 +81,7 @@
       ></apx-chart>
     </div>
   </div>
+
   <div
     class="forecast d-flex justify-content-center align-items-center mx-auto"
   >
