@@ -20,6 +20,11 @@ export class TickerComponent implements OnInit {
   data: ItemList = new ItemList();
 
   activeCustomers: number = 0;
+  activeProducts: number = 0;
+  shippedOrders: number = 0;
+  allCustomers: number = 0;
+  allProducts: number = 0;
+  allOrders: number = 0;
   valueOfAllCars: number = 0;
   mostExpensiveCar: Product = new Product();
   mostPopularCar: Product = new Product();
@@ -47,12 +52,31 @@ export class TickerComponent implements OnInit {
   }
 
   statCalculations() {
-    // active users
+    // active customers
     this.data.customers.forEach((customer: Customer, i) => {
       if (customer.active === true) {
         this.activeCustomers += 1;
       }
     });
+
+    this.allCustomers = this.data.customers.length;
+
+    // active products
+    this.data.products.forEach((product: Product, i) => {
+      if (product.active === true) {
+        this.activeProducts += 1;
+      }
+    });
+
+    this.allProducts = this.data.products.length;
+
+    // shipped orders
+    this.data.orders.forEach((order: Order, i) => {
+      if (order.status.includes('shipped')) {
+        this.shippedOrders += 1;
+      }
+    });
+    this.allOrders = this.data.orders.length;
 
     // value of all cars
     this.data.products.forEach((product: Product) => {

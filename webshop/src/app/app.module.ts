@@ -23,6 +23,7 @@ import { FilterPipe } from './common/data-table/filter.pipe';
 import { SortPipe } from './common/data-table/sort.pipe';
 import { TickerComponent } from './util/ticker/ticker.component';
 import { DashItemsComponent } from './common/dash-items/dash-items.component';
+import { CurrencyPipe } from './common/data-table/currency.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DashItemsComponent } from './common/dash-items/dash-items.component';
     SortPipe,
     TickerComponent,
     DashItemsComponent,
+    CurrencyPipe,
   ],
   imports: [
     BrowserModule,
