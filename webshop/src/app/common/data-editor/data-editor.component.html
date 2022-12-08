@@ -96,7 +96,7 @@
         class="btn btn-block my-2 w-100"
         [ngClass]="editor.valid ? 'btn-success' : 'btn-danger text-white'"
       >
-        Save
+        {{ action === "creator" ? "Create" : "Edit" }}
       </button>
     </form>
   </div>

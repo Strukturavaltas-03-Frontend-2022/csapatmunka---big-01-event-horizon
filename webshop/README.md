@@ -61,3 +61,9 @@
 - Minor tweaks to input validation regexps
 - Reworked sidebar / top navigation
 - Implemented full responsivity
+
+|2022.12.08. - ver. 1.30
+
+- Loading spinner got reintroduced to dashboard while waiting for chart data
+- Added additional messages to ticker components
+- Added pipe to display currency at selected table columns
